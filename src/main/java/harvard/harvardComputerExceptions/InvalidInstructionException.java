@@ -1,4 +1,6 @@
-package harvardComputerExceptions;
+package harvard.harvardComputerExceptions;
+
+import harvard.harvardComputerExceptions.HarvardComputerArchException;
 
 public class InvalidInstructionException extends HarvardComputerArchException {
 

@@ -1,4 +1,4 @@
-package harvardComputerExceptions;
+package harvard.harvardComputerExceptions;
 
 public class IncorrectMemoryAddressException extends HarvardComputerArchException{
 

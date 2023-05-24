@@ -1,6 +1,4 @@
-package storage;
-
-import harvard.memory.InstructionMemory;
+package harvard.storage;
 
 public class SREG extends Register {
 

@@ -1,6 +1,4 @@
-package storage;
-
-import storage.Register;
+package harvard.storage;
 
 public class ProgramCounter extends Register {
 

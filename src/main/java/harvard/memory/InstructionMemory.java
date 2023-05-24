@@ -1,18 +1,16 @@
 package harvard.memory;
 
-import harvard.instruction.Instruction;
+import harvard.instruction.RInstruction;
 
-import java.beans.Introspector;
-
-import static constants.Constants.Intruction_MEMORY_SIZE;
+import static harvard.constants.Constants.INSTRUCTION_MEMORY_SIZE;
 
 public class InstructionMemory {
 
-    private Instruction[] instructionMemory;
+    private RInstruction[] RInstructionMemory;
     private int currentIntruction;
     private static InstructionMemory instance = null;
     private InstructionMemory(){
-        instructionMemory = new Instruction[Intruction_MEMORY_SIZE];
+        RInstructionMemory = new RInstruction[INSTRUCTION_MEMORY_SIZE];
         currentIntruction =0 ;
     }
 
@@ -22,28 +20,28 @@ public class InstructionMemory {
         return instance;
     }
 
-    public Instruction fetch() {
+    public RInstruction fetch() {
         //TODO: waiting for the PC
         return null;
     }
 
-    public void addInstruction(Instruction instruction) {
+    public void addInstruction(RInstruction RInstruction) {
         //TODO: waiting for the full implementation
-        instructionMemory[currentIntruction++] = instruction;
-        //instruction.setAddress(currentIntruction);
+        RInstructionMemory[currentIntruction++] = RInstruction;
+        //RInstruction.setAddress(currentIntruction);
     }
 
     @Override
     public String toString(){
         String print = new String();
-        for(Instruction instruction: instructionMemory)
+        for(RInstruction RInstruction : RInstructionMemory)
         {
             //TODO: waiting for the full implemntaion of intruction
         }
         return print;
     }
     public void reset() {
-        this.instructionMemory = new Instruction[Intruction_MEMORY_SIZE];
+        this.RInstructionMemory = new RInstruction[INSTRUCTION_MEMORY_SIZE];
         this.currentIntruction = 0;
     }
 

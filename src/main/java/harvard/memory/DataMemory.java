@@ -1,9 +1,9 @@
 package harvard.memory;
 
-import harvardComputerExceptions.IncorrectMemoryAddressException;
-import storage.Register;
+import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
+import harvard.storage.Register;
 
-import static constants.Constants.*;
+import static harvard.constants.Constants.*;
 
 public class DataMemory {
     Byte [] memory;

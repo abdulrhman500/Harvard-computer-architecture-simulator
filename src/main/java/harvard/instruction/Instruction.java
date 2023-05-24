@@ -1,5 +1,4 @@
 package harvard.instruction;
 
-public class Instruction {
-
+public interface Instruction {
 }

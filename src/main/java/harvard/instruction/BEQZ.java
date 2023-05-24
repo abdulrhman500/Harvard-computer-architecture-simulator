@@ -27,7 +27,7 @@ public class BEQZ implements Instruction {
     }
 
     @Override
-    public void updateFlags() {
+    public void updateFlags(int result) {
         // Implementation specific to BEQZ instruction
     }
 

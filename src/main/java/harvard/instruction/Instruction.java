@@ -9,7 +9,7 @@ public interface Instruction {
 
     Byte getResult();
 
-    void updateFlags();
+    void updateFlags(int result);
 
     void setRegisters(Register register1, Register register2, InstructionType type);
 }

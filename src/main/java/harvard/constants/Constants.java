@@ -7,6 +7,6 @@ public class Constants {
 
     public static final String PROGRAM_PATH="src/main/program.txt";
 
-    public static final int SIX_ONES_MASK = (1<<6)-1;
+    public static final int EIGHT_ONES_MASK = (1<<8)-1;
 
 }

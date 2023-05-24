@@ -14,7 +14,7 @@ public class Multiply implements Instruction{
     }
 
     @Override
-    public void updateFlags() {
+    public void updateFlags(int result) {
 
     }
 

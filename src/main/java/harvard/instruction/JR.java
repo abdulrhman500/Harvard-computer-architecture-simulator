@@ -2,17 +2,15 @@ package harvard.instruction;
 
 import harvard.storage.Register;
 
-public class JR implements Instruction {
+public class JR extends RInstruction {
     private Register register1, register2;
     byte result;
     private InstructionType type;
 
-    public JR() {
-        // Empty constructor
-    }
 
-    public JR(Register register1, Register register2, InstructionType type) {
-        setRegisters(register1, register2, type);
+
+    public JR(Register register1, Register register2) {
+        super(register1, register2);
     }
 
     @Override
@@ -32,9 +30,8 @@ public class JR implements Instruction {
     }
 
     @Override
-    public void setRegisters(Register register1, Register register2, InstructionType type) {
+    public void setRegisters(Register register1, Register register2) {
         this.register1 = register1;
         this.register2 = register2;
-        this.type = type;
     }
 }

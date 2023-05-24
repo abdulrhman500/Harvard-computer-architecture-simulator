@@ -2,39 +2,33 @@ package harvard.instruction;
 
 import harvard.storage.Register;
 
-public class SRC implements Instruction {
-    private Register register1, register2;
-    byte result;
-    private InstructionType type;
+public class SRC extends IInstruction {
 
-    public SRC() {
-        // Empty constructor
-    }
 
-    public SRC(Register register1, Register register2, InstructionType type) {
-        setRegisters(register1, register2, type);
+    public SRC(Register register1, Byte immediate) {
+        super(register1, immediate);
     }
 
     @Override
     public void doOperation() {
-        // Implementation specific to SRC instruction
+        // Implementation specific to SLC instruction
     }
 
     @Override
     public Byte getResult() {
-        // Implementation specific to SRC instruction
+        // Implementation specific to SLC instruction
         return result;
     }
 
     @Override
     public void updateFlags(int result) {
-        // Implementation specific to SRC instruction
+        // Implementation specific to SLC instruction
     }
 
     @Override
-    public void setRegisters(Register register1, Register register2, InstructionType type) {
+    public void setRegisters(Register register1, Byte immediate) {
         this.register1 = register1;
-        this.register2 = register2;
-        this.type = type;
+        this.immediate= immediate;
     }
+
 }

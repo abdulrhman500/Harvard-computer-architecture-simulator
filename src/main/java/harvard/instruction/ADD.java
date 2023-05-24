@@ -5,19 +5,11 @@ import harvard.storage.SREG;
 
 import static harvard.constants.Constants.EIGHT_ONES_MASK;
 
-public class ADD extends Instruction {
-    private Register register1, register2;
-    byte result;
-    private InstructionType type;
+public class ADD extends RInstruction {
 
-    public ADD() {
-        // Empty constructor
+    public ADD(Register r1, Register r2) {
+        super(r1, r2);
     }
-
-    public ADD(Register register1, Register register2, InstructionType type) {
-        setRegisters(register1, register2, type);
-    }
-
     @Override
     public void doOperation() {
         int tmp1 = register1.getData();
@@ -53,9 +45,8 @@ public class ADD extends Instruction {
     }
 
     @Override
-    public void setRegisters(Register register1, Register register2, InstructionType type) {
+    public void setRegisters(Register register1, Register register2) {
         this.register1 = register1;
         this.register2 = register2;
-        this.type = type;
     }
 }

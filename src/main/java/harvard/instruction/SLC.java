@@ -2,17 +2,11 @@ package harvard.instruction;
 
 import harvard.storage.Register;
 
-public class SLC implements Instruction {
-    private Register register1, register2;
-    byte result;
-    private InstructionType type;
+public class SLC extends IInstruction {
 
-    public SLC() {
-        // Empty constructor
-    }
 
-    public SLC(Register register1, Register register2, InstructionType type) {
-        setRegisters(register1, register2, type);
+    public SLC(Register register1, Byte immediate) {
+        super(register1, immediate);
     }
 
     @Override
@@ -32,9 +26,9 @@ public class SLC implements Instruction {
     }
 
     @Override
-    public void setRegisters(Register register1, Register register2, InstructionType type) {
+    public void setRegisters(Register register1, Byte immediate) {
         this.register1 = register1;
-        this.register2 = register2;
-        this.type = type;
+        this.immediate= immediate;
     }
+
 }

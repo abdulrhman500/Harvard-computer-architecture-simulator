@@ -2,7 +2,7 @@ package harvard.memory;
 
 import harvard.instruction.RInstruction;
 
-import static harvard.constants.Constants.Intruction_MEMORY_SIZE;
+import static harvard.constants.Constants.INSTRUCTION_MEMORY_SIZE;
 
 public class InstructionMemory {
 
@@ -10,7 +10,7 @@ public class InstructionMemory {
     private int currentIntruction;
     private static InstructionMemory instance = null;
     private InstructionMemory(){
-        RInstructionMemory = new RInstruction[Intruction_MEMORY_SIZE];
+        RInstructionMemory = new RInstruction[INSTRUCTION_MEMORY_SIZE];
         currentIntruction =0 ;
     }
 
@@ -41,7 +41,7 @@ public class InstructionMemory {
         return print;
     }
     public void reset() {
-        this.RInstructionMemory = new RInstruction[Intruction_MEMORY_SIZE];
+        this.RInstructionMemory = new RInstruction[INSTRUCTION_MEMORY_SIZE];
         this.currentIntruction = 0;
     }
 

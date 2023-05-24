@@ -6,9 +6,6 @@ public class JR extends RInstruction {
     private Register register1, register2;
     byte result;
     private InstructionType type;
-
-
-
     public JR(Register register1, Register register2) {
         super(register1, register2);
     }

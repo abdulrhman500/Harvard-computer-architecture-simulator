@@ -1,5 +1,6 @@
 package harvard.instruction;
 
+import harvard.memory.DataMemory;
 import harvard.storage.Register;
 
 public class LB extends IInstruction {
@@ -11,18 +12,18 @@ public class LB extends IInstruction {
 
     @Override
     public void doOperation() {
-        // Implementation specific to LB instruction
+        register1.setData(DataMemory.getInstance().readAddress(immediate));
     }
 
     @Override
     public Byte getResult() {
-        // Implementation specific to LB instruction
+
         return result;
     }
 
     @Override
     public void updateFlags(int result) {
-        // Implementation specific to LB instruction
+
     }
 
     @Override

@@ -2,7 +2,7 @@ package harvard.instruction;
 
 import harvard.storage.Register;
 
-public abstract class IInstruction {
+public abstract class IInstruction implements Instruction{
     Register register1 = null;
     Byte result , immediate = null;
   public   IInstruction(Register register1 ,Byte immediate){

@@ -10,7 +10,6 @@ public class Subtract extends RInstruction {
         super(register1, register2);
     }
 
-    //    byte r/esult;
     @Override
     public void doOperation() {
         int tmp1 = register1.getData();

@@ -1,5 +1,7 @@
 package harvard.instruction;
 
+import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
+import harvard.memory.DataMemory;
 import harvard.storage.Register;
 
 public class SB extends IInstruction {
@@ -10,18 +12,21 @@ public class SB extends IInstruction {
 
     @Override
     public void doOperation() {
-        // Implementation specific to SB instruction
+        try {
+            DataMemory.getInstance().writeAddress(immediate,register1.getData());
+        } catch (IncorrectMemoryAddressException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
     public Byte getResult() {
-        // Implementation specific to SB instruction
         return result;
     }
 
     @Override
     public void updateFlags(int result) {
-        // Implementation specific to SB instruction
     }
 
     @Override

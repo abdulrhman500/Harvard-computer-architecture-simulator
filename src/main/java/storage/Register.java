@@ -1,6 +1,7 @@
 package storage;
 
 import harvard.memory.DataMemory;
+import harvardComputerExceptions.IncorrectMemoryAddressException;
 
 public class Register {
     private Byte data;
@@ -48,6 +49,10 @@ public class Register {
 
     public void loadByte(int add){
         setData(DataMemory.getInstance().readAddress(add));
+    }
+
+    public void storeByte(int add) throws IncorrectMemoryAddressException {
+        DataMemory.getInstance().writeAddress(add,getData());
     }
 
 }

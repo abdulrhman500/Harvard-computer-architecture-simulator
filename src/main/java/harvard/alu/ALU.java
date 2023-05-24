@@ -1,11 +1,13 @@
-package harvard.operation;
+package harvard.alu;
 
+import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
+import harvard.harvardComputerExceptions.InvalidInstructionException;
+import harvard.instruction.Instuctions;
 import harvard.memory.RegisterFile;
-import harvardComputerExceptions.IncorrectMemoryAddressException;
-import harvardComputerExceptions.InvalidInstructionException;
-import storage.ProgramCounter;
-import storage.Register;
-import storage.SREG;
+import harvard.storage.ProgramCounter;
+import harvard.storage.Register;
+import harvard.storage.SREG;
+
 
 public class ALU {
 

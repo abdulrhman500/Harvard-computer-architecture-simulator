@@ -1,8 +1,9 @@
 package harvard.memory;
 
-import storage.ProgramCounter;
-import storage.Register;
-import storage.SREG;
+
+import harvard.storage.ProgramCounter;
+import harvard.storage.Register;
+import harvard.storage.SREG;
 
 import java.util.HashMap;
 

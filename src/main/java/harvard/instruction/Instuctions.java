@@ -1,4 +1,4 @@
-package harvard.operation;
+package harvard.instruction;
 
 public enum Instuctions {
     ADD,

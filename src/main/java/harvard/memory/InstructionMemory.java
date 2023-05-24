@@ -1,7 +1,5 @@
 package harvard.memory;
 
-import harvard.instruction.RInstruction;
-
 import static harvard.constants.Constants.INSTRUCTION_MEMORY_SIZE;
 
 public class InstructionMemory {

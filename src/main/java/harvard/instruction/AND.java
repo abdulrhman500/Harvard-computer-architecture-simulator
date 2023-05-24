@@ -5,16 +5,11 @@ import harvard.storage.SREG;
 
 import static harvard.constants.Constants.EIGHT_ONES_MASK;
 
-public class AND extends Instruction {
+public class AND extends RInstruction {
 
-    private InstructionType type;
 
-    public AND() {
-
-    }
-
-    public AND(Register register1, Register register2, InstructionType type) {
-        setRegisters(register1, register2, type);
+    public AND(Register register1, Register register2) {
+        super(register1,register2);
     }
 
     @Override
@@ -40,9 +35,9 @@ public class AND extends Instruction {
     }
 
     @Override
-    public void setRegisters(Register register1, Register register2, InstructionType type) {
+    public void setRegisters(Register register1, Register register2) {
         this.register1 = register1;
         this.register2 = register2;
-        this.type = type;
+
     }
 }

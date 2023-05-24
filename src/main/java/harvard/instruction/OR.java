@@ -5,7 +5,11 @@ import harvard.storage.SREG;
 
 import static harvard.constants.Constants.EIGHT_ONES_MASK;
 
-public class OR extends Instruction{
+public class OR extends RInstruction {
+    public OR(Register register1, Register register2) {
+        super(register1, register2);
+    }
+
     @Override
     void doOperation() {
         int tmp1 = register1.getData();
@@ -30,7 +34,10 @@ public class OR extends Instruction{
     }
 
     @Override
-    void setRegisters(Register register1, Register register2, InstructionType type) {
+    void setRegisters(Register register1, Register register2) {
+        this.register1 = register1;
+        this.register2 = register2;
 
     }
+
 }

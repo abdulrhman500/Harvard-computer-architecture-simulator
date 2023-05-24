@@ -1,40 +1,34 @@
 package harvard.instruction;
 
+import harvard.memory.DataMemory;
 import harvard.storage.Register;
 
-public class LB implements Instruction {
-    private Register register1, register2;
-    byte result;
-    private InstructionType type;
+public class LB extends IInstruction {
 
-    public LB() {
-        // Empty constructor
-    }
 
-    public LB(Register register1, Register register2, InstructionType type) {
-        setRegisters(register1, register2, type);
+    public LB(Register register1, Byte immediate) {
+        super(register1, immediate);
     }
 
     @Override
     public void doOperation() {
-        // Implementation specific to LB instruction
+        register1.setData(DataMemory.getInstance().readAddress(immediate));
     }
 
     @Override
     public Byte getResult() {
-        // Implementation specific to LB instruction
+
         return result;
     }
 
     @Override
     public void updateFlags(int result) {
-        // Implementation specific to LB instruction
+
     }
 
     @Override
-    public void setRegisters(Register register1, Register register2, InstructionType type) {
+    public void setRegisters(Register register1, Byte immediate) {
         this.register1 = register1;
-        this.register2 = register2;
-        this.type = type;
+       this.immediate= immediate;
     }
 }

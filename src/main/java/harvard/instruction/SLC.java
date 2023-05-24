@@ -1,40 +1,38 @@
 package harvard.instruction;
 
 import harvard.storage.Register;
+import harvard.storage.SREG;
 
-public class SLC implements Instruction {
-    private Register register1, register2;
-    byte result;
-    private InstructionType type;
+public class SLC extends IInstruction {
 
-    public SLC() {
-        // Empty constructor
-    }
 
-    public SLC(Register register1, Register register2, InstructionType type) {
-        setRegisters(register1, register2, type);
+    public SLC(Register register1, Byte immediate) {
+        super(register1, immediate);
     }
 
     @Override
     public void doOperation() {
-        // Implementation specific to SLC instruction
+        Byte tmpResult = (byte) ((register1.getData() << immediate) | (register1.getData() >>> (8 - immediate)));
+        register1.setData(tmpResult);
     }
-
     @Override
     public Byte getResult() {
-        // Implementation specific to SLC instruction
+
         return result;
     }
 
     @Override
     public void updateFlags(int result) {
-        // Implementation specific to SLC instruction
+        boolean negative = result < 0;
+        boolean zero = result == 0;
+        SREG.getInstance().setNBit(negative);
+        SREG.getInstance().setZBit(zero);
     }
 
     @Override
-    public void setRegisters(Register register1, Register register2, InstructionType type) {
+    public void setRegisters(Register register1, Byte immediate) {
         this.register1 = register1;
-        this.register2 = register2;
-        this.type = type;
+        this.immediate= immediate;
     }
+
 }

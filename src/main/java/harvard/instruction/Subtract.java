@@ -5,8 +5,11 @@ import harvard.storage.SREG;
 
 import static harvard.constants.Constants.EIGHT_ONES_MASK;
 
-public class Subtract extends Instruction{
-//    byte r/esult;
+public class Subtract extends RInstruction {
+    Subtract(Register register1, Register register2) {
+        super(register1, register2);
+    }
+
     @Override
     public void doOperation() {
         int tmp1 = register1.getData();
@@ -39,7 +42,7 @@ public class Subtract extends Instruction{
     }
 
     @Override
-    public void setRegisters(Register register1, Register register2, InstructionType type) {
+    public void setRegisters(Register register1, Register register2) {
 
     }
 }

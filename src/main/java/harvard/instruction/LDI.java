@@ -2,17 +2,10 @@ package harvard.instruction;
 
 import harvard.storage.Register;
 
-public class LDI implements Instruction {
-    private Register register1, register2;
-    byte result;
-    private InstructionType type;
+public class LDI extends IInstruction {
 
-    public LDI() {
-        // Empty constructor
-    }
-
-    public LDI(Register register1, Register register2, InstructionType type) {
-        setRegisters(register1, register2, type);
+    public LDI(Register register1, Byte immediate) {
+        super(register1, immediate);
     }
 
     @Override
@@ -32,9 +25,8 @@ public class LDI implements Instruction {
     }
 
     @Override
-    public void setRegisters(Register register1, Register register2, InstructionType type) {
+    public void setRegisters(Register register1, Byte immediate) {
         this.register1 = register1;
-        this.register2 = register2;
-        this.type = type;
+        this.immediate = immediate;
     }
 }

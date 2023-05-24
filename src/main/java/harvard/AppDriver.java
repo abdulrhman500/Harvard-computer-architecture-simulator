@@ -1,6 +1,9 @@
 package harvard;
 
+import harvard.instruction.ADD;
 import harvard.instruction.Instruction;
+import harvard.instruction.InstructionType;
+import harvard.storage.Register;
 
 public class AppDriver {
      int clock ;
@@ -34,6 +37,12 @@ public class AppDriver {
 //        int pc;
 
 //       Fetch.fetch(pc);
+        Register r1 = new Register((byte)-5);
+        Register r2 = new Register((byte)-8);
+
+        ADD add= new ADD(r1,r2, InstructionType.IType);
+        add.doOperation();
+        System.out.println(add.getResult());
 
 
 

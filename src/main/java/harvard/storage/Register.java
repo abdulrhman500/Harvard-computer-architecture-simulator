@@ -1,6 +1,7 @@
-package storage;
+package harvard.storage;
 
 import harvard.memory.DataMemory;
+import harvard.utils.BaseConversion;
 
 public class Register {
     private Byte data;
@@ -21,6 +22,9 @@ public class Register {
         int tmp = (int)data + (int)R2.getData();
         SREG.getInstance().setCBit( (tmp & (1<<9)) > 0 );
         data = (byte) (data + R2.getData());
+    }
+    public String toBinary() {
+        return BaseConversion.toBinary(data);
     }
 
     //TODO: (V & N & S & Z) flags registerfile conditions

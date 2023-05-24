@@ -2,9 +2,7 @@ package harvard.memory;
 
 import harvard.instruction.Instruction;
 
-import java.beans.Introspector;
-
-import static constants.Constants.Intruction_MEMORY_SIZE;
+import static harvard.constants.Constants.Intruction_MEMORY_SIZE;
 
 public class InstructionMemory {
 

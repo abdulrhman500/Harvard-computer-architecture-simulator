@@ -16,8 +16,8 @@ public class SREG extends Register {
         setBit((byte) 0, setter);
     }
 
-    public void setSBit(boolean setter){
-        setBit((byte) 1, setter);
+    public void setSBit(){
+        setBit((byte) 1,((getData()>>2 & 1)>0) ^ ((getData()>>3 & 1)>0));
     }
 
     public void setNBit(boolean setter){

@@ -21,7 +21,7 @@ public class ALU {
             throws InvalidInstructionException {
         RegisterFile registerFile = RegisterFile.getInstance();
         Register R1 = registerFile.getRegister(firstRegister);
-        Register R2 = registerFile.getRegister(firstRegister);
+        Register R2 = registerFile.getRegister(secondRegister);
         switch (instruction) {
             case ADD: {
                 // TODO: check about zero

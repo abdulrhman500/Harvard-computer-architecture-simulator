@@ -22,6 +22,7 @@ public class ProgramCounter extends Register {
 
     public void jump(Register R1, Register R2){
         //TODO: implement data = R1 || R2  -> || concatanate
+        this.setData((byte)Integer.parseInt(R1.getData()+""+ R2.getData()));
     }
 
 }

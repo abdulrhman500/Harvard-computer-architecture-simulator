@@ -18,8 +18,6 @@ public class Register {
     }
 
     public void add(Register R2){
-        int tmp = (int)data + (int)R2.getData();
-        SREG.getInstance().setCBit( (tmp & (1<<9)) > 0 );
         data = (byte) (data + R2.getData());
     }
 

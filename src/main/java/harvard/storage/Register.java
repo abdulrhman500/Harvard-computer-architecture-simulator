@@ -2,7 +2,6 @@ package harvard.storage;
 
 import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 import harvard.memory.DataMemory;
-import harvardComputerExceptions.IncorrectMemoryAddressException;
 
 public class Register {
     private Byte data;
@@ -26,9 +25,6 @@ public class Register {
         data = (byte) (data + R2.getData());
     }
 
-    public String toBinary() {
-        return BaseConversion.toBinary(data);
-    }
 
     // TODO: (V & N & S & Z) flags registerfile conditions
     public void sub(Register R2) {

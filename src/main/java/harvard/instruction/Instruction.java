@@ -2,14 +2,16 @@ package harvard.instruction;
 
 import harvard.storage.Register;
 
-public interface Instruction {
-    Byte register1 = null, register2 = null, result = null;
+public abstract class Instruction {
+    Register register1 = null, register2 = null;
+    Byte result = null;
     InstructionType type = null;
-    void doOperation();
 
-    Byte getResult();
+    abstract void doOperation();
 
-    void updateFlags(int result);
+    abstract Byte getResult();
 
-    void setRegisters(Register register1, Register register2, InstructionType type);
+    abstract void updateFlags(int result);
+
+    abstract void setRegisters(Register register1, Register register2, InstructionType type);
 }

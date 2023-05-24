@@ -1,14 +1,16 @@
 package harvard.instruction;
 
 import harvard.storage.Register;
+import harvard.storage.SREG;
 
-public class AND implements Instruction {
-    private Register register1, register2;
-    byte result;
+import static harvard.constants.Constants.EIGHT_ONES_MASK;
+
+public class AND extends Instruction {
+
     private InstructionType type;
 
     public AND() {
-        // Empty constructor
+
     }
 
     public AND(Register register1, Register register2, InstructionType type) {
@@ -17,18 +19,24 @@ public class AND implements Instruction {
 
     @Override
     public void doOperation() {
-        // Implementation specific to AND instruction
+        int tmp1 = register1.getData();
+        int tmp2 = register2.getData();
+        int tmpResult = tmp1 & tmp2;
+        result = (byte) (tmpResult & EIGHT_ONES_MASK);
+        updateFlags(tmpResult);
     }
 
     @Override
     public Byte getResult() {
-        // Implementation specific to AND instruction
         return result;
     }
 
     @Override
     public void updateFlags(int result) {
-        // Implementation specific to AND instruction
+        boolean negative = result < 0;
+        boolean zero = result == 0;
+        SREG.getInstance().setNBit(negative);
+        SREG.getInstance().setZBit(zero);
     }
 
     @Override

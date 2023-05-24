@@ -5,7 +5,7 @@ import harvard.storage.SREG;
 
 import static harvard.constants.Constants.EIGHT_ONES_MASK;
 
-public class ADD implements Instruction {
+public class ADD extends Instruction {
     private Register register1, register2;
     byte result;
     private InstructionType type;
@@ -29,7 +29,6 @@ public class ADD implements Instruction {
 
     @Override
     public Byte getResult() {
-        // Implementation specific to ADD instruction
         return result;
     }
 
@@ -40,9 +39,10 @@ public class ADD implements Instruction {
         boolean overflow = false;
         boolean negative = result < 0;
         boolean zero = result == 0;
+        int resultSign = (result>>7)&1;
         int register1Sign = (register1.getData() >> 7) & 1;
         int register2Sign = (register1.getData() >> 7) & 1;
-        if (register1Sign != register2Sign)
+        if ((register1Sign == register2Sign)&&resultSign != register1Sign)
             overflow = true;
         boolean sign = negative ^ overflow;
         SREG.getInstance().setNBit(negative);

@@ -2,7 +2,7 @@ package harvard.instruction;
 
 import harvard.storage.Register;
 
-public class SB implements Instruction {
+public class SB extends Instruction {
     private Register register1, register2;
     byte result;
     private InstructionType type;

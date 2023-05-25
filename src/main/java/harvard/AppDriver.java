@@ -4,6 +4,7 @@ import harvard.constants.Constants;
 import harvard.instruction.*;
 import harvard.memory.InstructionMemory;
 import harvard.memory.RegisterFile;
+import harvard.operation.ALU;
 import harvard.storage.ProgramCounter;
 import harvard.storage.Register;
 import harvard.storage.SREG;
@@ -12,7 +13,7 @@ public class AppDriver {
     private int clock;
     private short FETCH = -1;
     private short DECODE = -1;
-    private Instruction EXECUTE = null;
+    private short EXECUTE = -1;
 
     private boolean isBranch = false;
 
@@ -34,9 +35,9 @@ public class AppDriver {
         return curInstruction;
     }
 
-    public Instruction decode(short curInstruction) {
+    public void decode(short curInstruction) {
         if (curInstruction == -1) {
-            return null;
+            return;
         }
 
         DECODE = FETCH;
@@ -44,12 +45,10 @@ public class AppDriver {
         int r1 = getR1(curInstruction);
         int r2 = getR2(curInstruction);
 
-        if (opCode <= 2 || opCode == 5 || opCode == 6 || opCode == 7) {
-            return getRInstructionFromOpCode(opCode, r1, r2);
-        } else {
-            byte immValue = (byte) r2;
-            return getIInstructionFromOpCode(opCode, r1, immValue);
-        }
+        ALU.getInstance().setOpCode(opCode);
+        ALU.getInstance().setOperand1(r1);
+        ALU.getInstance().setOperand2(r2);
+
     }
 
     public void runNext() {
@@ -57,13 +56,13 @@ public class AppDriver {
             isBranch = false;
             FETCH = -1;
             DECODE = -1;
-            EXECUTE = null;
+            EXECUTE = -1;
         }
-        EXECUTE = decode(DECODE);
+        EXECUTE = DECODE;
         DECODE = FETCH;
         FETCH = fetch();
 
-        if (FETCH == -1 && DECODE == -1 && EXECUTE == null) {
+        if (FETCH == -1 && DECODE == -1 && EXECUTE == -1) {
             System.out.println("FINISHED EXECUTION");
             // TODO: print all.
             clock = 1;
@@ -87,20 +86,15 @@ public class AppDriver {
             System.out.println("No Decode Instruction");
         }
 
-        if (EXECUTE != null) {
+        if (EXECUTE != -1) {
             System.out.println("current Executed Instruction: " + EXECUTE);
+            ALU.getInstance().execute();
         } else {
             System.out.println("No Execute Instruction");
         }
 
     }
 
-    public void execute() {
-        if (EXECUTE == null) {
-            return;
-        }
-        EXECUTE.doOperation();
-    }
 
     private int getRangeFromBinaryNumber(int binNum, int i, int j) {
         int mask = ((1 << j) - 1) & ~((1 << i) - 1);
@@ -119,44 +113,6 @@ public class AppDriver {
         return getRangeFromBinaryNumber(curInstruction, 0, 5);
     }
 
-
-    private Instruction getRInstructionFromOpCode(int opCode, int r1, int r2) {
-        switch (opCode) {
-            case 0:
-                return new ADD(RegisterFile.getInstance().getRegister(r1), RegisterFile.getInstance().getRegister(r2));
-            case 1:
-                return new SUB(RegisterFile.getInstance().getRegister(r1), RegisterFile.getInstance().getRegister(r2));
-            case 2:
-                return new Multiply(RegisterFile.getInstance().getRegister(r1), RegisterFile.getInstance().getRegister(r2));
-            case 5:
-                return new AND(RegisterFile.getInstance().getRegister(r1), RegisterFile.getInstance().getRegister(r2));
-            case 6:
-                return new OR(RegisterFile.getInstance().getRegister(r1), RegisterFile.getInstance().getRegister(r2));
-            case 7:
-                return new JR(RegisterFile.getInstance().getRegister(r1), RegisterFile.getInstance().getRegister(r2));
-            default:
-                throw new IllegalStateException("Unexpected value: " + opCode);
-        }
-    }
-
-    private Instruction getIInstructionFromOpCode(int opCode, int r1, byte immValue) {
-        switch (opCode) {
-            case 3:
-                return new LDI(RegisterFile.getInstance().getRegister(r1), immValue);
-            case 4:
-                return new BEQZ(RegisterFile.getInstance().getRegister(r1), immValue);
-            case 8:
-                return new SLC(RegisterFile.getInstance().getRegister(r1), immValue);
-            case 9:
-                return new SRC(RegisterFile.getInstance().getRegister(r1), immValue);
-            case 10:
-                return new LB(RegisterFile.getInstance().getRegister(r1), immValue);
-            case 11:
-                return new SB(RegisterFile.getInstance().getRegister(r1), immValue);
-            default:
-                throw new IllegalStateException("Unexpected value: " + opCode);
-        }
-    }
 
     public void run(String path) {
         this.init();

@@ -2,18 +2,41 @@ package harvard.instruction;
 
 import harvard.storage.Register;
 
-public abstract class RInstruction implements Instruction{
-    Register register1 = null, register2 = null;
-    Byte result = null;
-    RInstruction(Register register1 , Register register2){
-        this.register1=register1;
-        this.register2= register2;
+public abstract class RInstruction implements Instruction {
+    private int op1, op2, destReg;
+
+    RInstruction(int op1, int op2, int destReg) {
+        this.op1 = op1;
+        this.op2 = op2;
+        this.destReg = destReg;
     }
-    abstract void doOperation();
 
-    abstract Byte getResult();
+    public abstract void doOperation();
 
-    abstract void updateFlags(int result);
+    public abstract void updateFlags(int result);
 
-    abstract void setRegisters(Register register1, Register register2);
+    public int getOp1() {
+        return op1;
+    }
+
+    public int getOp2() {
+        return op2;
+    }
+
+    public int getDestReg() {
+        return destReg;
+    }
+
+    public void setOp1(int op1) {
+        this.op1 = op1;
+    }
+
+    public void setOp2(int op2) {
+        this.op2 = op2;
+    }
+
+    public void setDestReg(int destReg) {
+        this.destReg = destReg;
+    }
+
 }

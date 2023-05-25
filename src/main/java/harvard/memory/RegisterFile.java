@@ -18,6 +18,10 @@ public class RegisterFile {
         return registers[index];
     }
 
+    public void setRegister(int index, byte data) {
+        registers[index].setData(data);
+    }
+
     public static RegisterFile getInstance() {
         return registerFile;
     }

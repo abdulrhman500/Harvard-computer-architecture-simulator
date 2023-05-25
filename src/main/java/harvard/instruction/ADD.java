@@ -1,5 +1,6 @@
 package harvard.instruction;
 
+import harvard.memory.RegisterFile;
 import harvard.storage.Register;
 import harvard.storage.SREG;
 
@@ -7,22 +8,19 @@ import static harvard.constants.Constants.EIGHT_ONES_MASK;
 
 public class ADD extends RInstruction {
 
-    public ADD(Register r1, Register r2) {
-        super(r1, r2);
-    }
-    @Override
-    public void doOperation() {
-        int tmp1 = register1.getData();
-        int tmp2 = register2.getData();
-        int tmpResult = tmp1 + tmp2;
-        result = (byte) (tmpResult & EIGHT_ONES_MASK);
-        updateFlags(tmpResult);
+    public ADD(int op1, int op2, int destReg) {
+        super(op1, op2, destReg);
     }
 
     @Override
-    public Byte getResult() {
-        return result;
+    public void doOperation() {
+        int tmpResult = getOp1() + getOp2();
+        byte result = (byte) (tmpResult & EIGHT_ONES_MASK);
+        RegisterFile.getInstance().setRegister(getDestReg(), result);
+
+        updateFlags(tmpResult);
     }
+
 
     @Override
     public void updateFlags(int result) {
@@ -31,10 +29,10 @@ public class ADD extends RInstruction {
         boolean overflow = false;
         boolean negative = result < 0;
         boolean zero = result == 0;
-        int resultSign = (result>>7)&1;
-        int register1Sign = (register1.getData() >> 7) & 1;
-        int register2Sign = (register1.getData() >> 7) & 1;
-        if ((register1Sign == register2Sign)&&resultSign != register1Sign)
+        int resultSign = (result >> 7) & 1;
+        int register1Sign = (getOp1() >> 7) & 1;
+        int register2Sign = (getOp2() >> 7) & 1;
+        if ((register1Sign == register2Sign) && resultSign != register1Sign)
             overflow = true;
         boolean sign = negative ^ overflow;
         SREG.getInstance().setNBit(negative);
@@ -44,9 +42,4 @@ public class ADD extends RInstruction {
         SREG.getInstance().setSBit(sign);
     }
 
-    @Override
-    public void setRegisters(Register register1, Register register2) {
-        this.register1 = register1;
-        this.register2 = register2;
-    }
 }

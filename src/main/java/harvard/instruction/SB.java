@@ -6,14 +6,14 @@ import harvard.storage.Register;
 
 public class SB extends IInstruction {
 
-    public SB(Register register1, Byte immediate) {
-        super(register1, immediate);
+    public SB(int register1, int immediate, int destReg) {
+        super(register1, immediate, destReg);
     }
 
     @Override
     public void doOperation() {
         try {
-            DataMemory.getInstance().writeAddress(immediate,register1.getData());
+            DataMemory.getInstance().writeAddress(immediate, (byte) register1);
         } catch (IncorrectMemoryAddressException e) {
             throw new RuntimeException(e);
         }
@@ -21,17 +21,7 @@ public class SB extends IInstruction {
     }
 
     @Override
-    public Byte getResult() {
-        return result;
-    }
-
-    @Override
     public void updateFlags(int result) {
     }
 
-    @Override
-    public void setRegisters(Register register1, Byte immediate) {
-        this.register1 = register1;
-        this.immediate = immediate;
-    }
 }

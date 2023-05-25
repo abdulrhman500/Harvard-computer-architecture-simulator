@@ -1,12 +1,13 @@
 package harvard;
 
+import harvard.instruction.ADD;
+import harvard.instruction.RInstruction;
 import harvard.storage.Register;
 import harvard.storage.SREG;
-import harvard.instruction.Instuctions;
 
 public class AppDriver {
      int clock ;
-     Instuctions[] program;
+     RInstruction[] program;
      int program_count;
      int max_clock;
      int FETCH=0;
@@ -42,9 +43,9 @@ public class AppDriver {
         Register r1 = new Register((byte)5);
         Register r2 = new Register((byte)-8);
 
-//        ADD add= new ADD(r1,r2);
-//        add.doOperation();
-//        System.out.println(add.getResult());
+        ADD add= new ADD(r1,r2);
+        add.doOperation();
+        System.out.println(add.getResult());
 
 
 

@@ -1,17 +1,14 @@
 package harvard.storage;
 
-import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 import harvard.memory.DataMemory;
+import harvard.utils.BaseConversion;
 
 public class Register {
     private Byte data;
-
-    public Register(Byte data) {
+    public Register(Byte data){
         this.data = data;
     }
-
-    public Register() {
-    }
+    public Register(){}
 
     public Byte getData() {
         return data;
@@ -21,42 +18,42 @@ public class Register {
         this.data = data;
     }
 
-    public void add(Register R2) {
+    public void add(Register R2){
+        int tmp = (int)data + (int)R2.getData();
+        SREG.getInstance().setCBit( (tmp & (1<<9)) > 0 );
         data = (byte) (data + R2.getData());
     }
+    public String toBinary() {
+        return BaseConversion.toBinary(data);
+    }
 
-
-    // TODO: (V & N & S & Z) flags registerfile conditions
-    public void sub(Register R2) {
+    //TODO: (V & N & S & Z) flags registerfile conditions
+    public void sub(Register R2){
         data = (byte) (data - R2.getData());
     }
 
-    public void mul(Register R2) {
+    public void mul(Register R2){
         data = (byte) (data * R2.getData());
     }
 
-    public void and(Register R2) {
+    public void and(Register R2){
         data = (byte) (data & R2.getData());
     }
 
-    public void or(Register R2) {
+    public void or(Register R2){
         data = (byte) (data | R2.getData());
     }
 
-    public void shiftLeft(Byte imm) {
-        data = (byte) (data << imm | data >>> 8 - imm);
+    public void shiftLeft(Byte imm){
+        data = (byte)(data << imm | data >>> 8 - imm);
     }
 
-    public void shiftRight(Byte imm) {
-        data = (byte) (data >>> imm | data << 8 - imm);
+    public void shiftRight(Byte imm){
+        data = (byte)( data >>> imm | data << 8 - imm);
     }
 
-    public void loadByte(int add) {
+    public void loadByte(int add){
         setData(DataMemory.getInstance().readAddress(add));
-    }
-
-    public void storeByte(int add) throws IncorrectMemoryAddressException {
-        DataMemory.getInstance().writeAddress(add, getData());
     }
 
 }

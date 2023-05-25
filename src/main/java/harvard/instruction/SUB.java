@@ -5,8 +5,8 @@ import harvard.storage.SREG;
 
 import static harvard.constants.Constants.EIGHT_ONES_MASK;
 
-public class Subtract extends RInstruction {
-    Subtract(Register register1, Register register2) {
+public class SUB extends RInstruction {
+    public SUB(Register register1, Register register2) {
         super(register1, register2);
     }
 

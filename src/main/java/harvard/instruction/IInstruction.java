@@ -2,18 +2,20 @@ package harvard.instruction;
 
 import harvard.storage.Register;
 
-public abstract class IInstruction implements Instruction{
+public abstract class IInstruction implements Instruction {
     Register register1 = null;
-    Byte result , immediate = null;
-  public   IInstruction(Register register1 ,Byte immediate){
-        this.register1= register1;
+    Byte result, immediate = null;
+
+    public IInstruction(Register register1, Byte immediate) {
+        this.register1 = register1;
         this.immediate = immediate;
     }
-    abstract void doOperation();
 
-    abstract Byte getResult();
+    public abstract void doOperation();
 
-    abstract void updateFlags(int result);
+    public abstract Byte getResult();
+
+    public abstract void updateFlags(int result);
 
     public abstract void setRegisters(Register register1, Byte immediate);
 }

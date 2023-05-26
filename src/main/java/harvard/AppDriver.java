@@ -1,148 +1,136 @@
 package harvard;
 
+import java.util.Arrays;
+
 import harvard.constants.Constants;
-import harvard.instruction.*;
+import harvard.harvardComputerExceptions.HarvardComputerArchException;
 import harvard.memory.InstructionMemory;
 import harvard.memory.RegisterFile;
 import harvard.operation.ALU;
 import harvard.storage.ProgramCounter;
-import harvard.storage.Register;
-import harvard.storage.SREG;
 
 public class AppDriver {
-    private int clock;
-    private short FETCH = -1;
-    private short DECODE = -1;
-    private short EXECUTE = -1;
+	private int clock;
+	private Short FETCH, DECODE, EXECUTE;
+	private boolean isBranch = false;
 
-    private boolean isBranch = false;
+	private void init() {
+		clock = 1;
+//		SREG.getInstance().setData((byte) 0);
+	}
 
-    private void init() {
-        clock = 1;
-        SREG.getInstance().setData((byte) 0);
+	public short fetch() {
+		short pc = RegisterFile.getInstance().getPC();
+		Short curInstruction = InstructionMemory.getInstance().getInstruction(pc);
+		RegisterFile.getInstance().setPC((short) (pc + 1));
+		return curInstruction;
+	}
 
-    }
+	public void decode(Short instruction) {
 
-    public short fetch() {
-        int pc = RegisterFile.getInstance().getPC();
-        if (pc < 0 || pc >= InstructionMemory.getInstance().getCurrentIntruction())
-            return -1;
+		byte opCode = getOpCode(instruction);
+		byte register1 = getR1(instruction);
+		byte register2 = getR2(instruction);
 
-        short curInstruction = InstructionMemory.getInstance().getInstruction(pc);
-        RegisterFile.getInstance().setPC((byte) (pc + 1));
+		byte operand1 = RegisterFile.getInstance().getRegister(register1).getData();
+		byte operand2 = isRType(opCode) ? RegisterFile.getInstance().getRegister(register2).getData()
+				: extend(register2);
 
-        return curInstruction;
-    }
+		ALU.getInstance().setOpCode(opCode);
+		ALU.getInstance().setOperand1(operand1);
+		ALU.getInstance().setOperand2(operand2);
+		ALU.getInstance().setDestReg(register1);
 
-    public void decode(short curInstruction) {
-        if (curInstruction == -1) {
-            return;
-        }
+	}
 
-        DECODE = FETCH;
-        int opCode = getOpCode(curInstruction);
-        int r1 = getR1(curInstruction);
-        int r2 = getR2(curInstruction);
+	public void runNext() throws HarvardComputerArchException {
+		if (isBranch) {
+			isBranch = false;
+			FETCH = null;
+			DECODE = null;
+			EXECUTE = null;
+			ALU.getInstance().clear();
+		}
+		EXECUTE = DECODE;
+		DECODE = FETCH;
+		FETCH = fetch();
 
-        ALU.getInstance().setOpCode(opCode);
-        ALU.getInstance().setOperand1(r1);
-        ALU.getInstance().setOperand2(r2);
+		if (FETCH == null && DECODE == null && EXECUTE == null) {
+			System.out.println("FINISHED EXECUTION");
+			// TODO: print all and reset
+			return;
+		}
 
-    }
+		System.out.println("Start of Clock Cycle " + (clock));
+		System.out.println("Program Counter: " + (ProgramCounter.getInstance().getData() - 1));
 
-    public void runNext() {
-        if (isBranch) {
-            isBranch = false;
-            FETCH = -1;
-            DECODE = -1;
-            EXECUTE = -1;
-        }
-        EXECUTE = DECODE;
-        DECODE = FETCH;
-        FETCH = fetch();
+		if (FETCH != null) {
+			System.out.println("current Fetched Instruction: " + FETCH);
+		} else {
+			System.out.println("No Fetch Instruction");
+		}
 
-        if (FETCH == -1 && DECODE == -1 && EXECUTE == -1) {
-            System.out.println("FINISHED EXECUTION");
-            // TODO: print all.
-            clock = 1;
-            return;
-        } else {
-            clock++;
-        }
+		if (DECODE != null) {
+			System.out.println("current Decoded Instruction: " + DECODE);
+			decode(DECODE);
+		} else {
+			System.out.println("No Decode Instruction");
+		}
 
-        System.out.println("Start of Clock Cycle " + (clock - 1));
-        System.out.println("Program Counter: " + (ProgramCounter.getInstance().getData() - 1));
+		if (EXECUTE != null) {
+			System.out.println("current Executed Instruction: " + EXECUTE);
+			ALU.getInstance().execute();
+			isBranch |= ALU.getInstance().checkForBranch();
+		} else {
+			System.out.println("No Execute Instruction");
+		}
 
-        if (FETCH != -1) {
-            System.out.println("current Fetched Instruction: " + FETCH);
-        } else {
-            System.out.println("No Fetch Instruction");
-        }
+		clock++;
 
-        if (DECODE != -1) {
-            System.out.println("current Decoded Instruction: " + DECODE);
-        } else {
-            System.out.println("No Decode Instruction");
-        }
+	}
 
-        if (EXECUTE != -1) {
-            System.out.println("current Executed Instruction: " + EXECUTE);
-            ALU.getInstance().execute();
-        } else {
-            System.out.println("No Execute Instruction");
-        }
+	private byte getRangeFromBinaryNumber(int binNum, int i, int j) {
+		int mask = ((1 << j) - 1) & ~((1 << i) - 1);
+		return (byte) ((binNum & mask) >> i);
+	}
 
-    }
+	private byte getOpCode(short curInstruction) {
+		return getRangeFromBinaryNumber(curInstruction, 12, 16);
+	}
 
+	private byte getR1(short curInstruction) {
+		return getRangeFromBinaryNumber(curInstruction, 6, 12);
+	}
 
-    private int getRangeFromBinaryNumber(int binNum, int i, int j) {
-        int mask = ((1 << j) - 1) & ~((1 << i) - 1);
-        return (binNum & mask) >> i;
-    }
+	private byte getR2(short curInstruction) {
+		return getRangeFromBinaryNumber(curInstruction, 0, 6);
+	}
 
-    private int getOpCode(short curInstruction) {
-        return getRangeFromBinaryNumber(curInstruction, 12, 15);
-    }
+	private boolean isRType(Byte opcode) {
+		return Arrays.binarySearch(Constants.R_TYPE_INSTRUCTIONS, opcode) >= 0;
+	}
 
-    private int getR1(short curInstruction) {
-        return getRangeFromBinaryNumber(curInstruction, 6, 11);
-    }
+	private byte extend(byte operand) {
+		if ((operand & (1 << Constants.BIT6)) != 0) {
+			operand = (byte) ((-1 << Constants.BIT6) | operand);
+		}
+		return operand;
+	}
 
-    private int getR2(short curInstruction) {
-        return getRangeFromBinaryNumber(curInstruction, 0, 5);
-    }
+	public void run(String path) {
+		this.init();
+		// parser
+		// load to memory
+		// for (int inst : program )
+		// fetch(this);
+		// decode()
+		// execute()
+		// print(CLOCK)
+		// increment
 
+	}
 
-    public void run(String path) {
-        this.init();
-        // parser
-        // load to memory
-        // for (int inst : program )
-        //fetch(this);
-        //decode()
-        //execute()
-        //print(CLOCK)
-        //increment
-
-
-    }
-
-    public static void main(String args[]) {
-        AppDriver app = new AppDriver();
-        app.run("");
-//        Parser parser = new Parser();
-//        int pc;
-
-//       Fetch.fetch(pc);
-//        this.init();
-        app.run("");
-        Register r1 = new Register((byte) 5);
-        Register r2 = new Register((byte) -8);
-
-//        ADD add= new ADD(r1,r2);
-//        add.doOperation();
-//        System.out.println(add.getResult());
-
-
-    }
+	public static void main(String args[]) {
+//		AppDriver app = new AppDriver();
+	}
 }

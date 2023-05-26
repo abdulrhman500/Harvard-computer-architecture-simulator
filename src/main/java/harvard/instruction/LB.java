@@ -1,25 +1,23 @@
 package harvard.instruction;
 
+import harvard.harvardComputerExceptions.HarvardComputerArchException;
 import harvard.memory.DataMemory;
 import harvard.memory.RegisterFile;
-import harvard.storage.Register;
 
 public class LB extends IInstruction {
 
+	public LB(byte register1, byte immediate, byte destReg) {
+		super(register1, immediate, destReg);
+	}
 
-    public LB(int register1, int immediate, int destReg) {
-        super(register1, immediate, destReg);
-    }
+	@Override
+	public void doOperation() {
+		byte data = (DataMemory.getInstance().readAddress(getImmediate()));
+		RegisterFile.getInstance().setRegister(getDestReg(), data);
+	}
 
-    @Override
-    public void doOperation() {
-        register1 = (DataMemory.getInstance().readAddress(immediate));
-        //TODO: write in the dist reg
-    }
-
-
-    @Override
-    public void updateFlags(int result) {
-        RegisterFile.getInstance().getSREG().updateFlags(EInstuctions.LB, result, (byte) getRegister1(), null);
-    }
+	@Override
+	public void updateFlags(int result) throws HarvardComputerArchException {
+		RegisterFile.getInstance().getSREG().updateFlags(EInstuctions.LB, result, (byte) getOp1(), null);
+	}
 }

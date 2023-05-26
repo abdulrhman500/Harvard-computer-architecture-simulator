@@ -1,27 +1,30 @@
 package harvard.instruction;
 
-import harvard.storage.Register;
+import harvard.harvardComputerExceptions.HarvardComputerArchException;
 
 public abstract class IInstruction implements Instruction {
-    int register1, immediate, destReg;
+	byte op1, immediate, destReg;
 
-    public int getDestReg() {
-        return destReg;
-    }
+	public IInstruction(byte op1, byte immediate, byte destReg) {
+		this.op1 = op1;
+		this.immediate = immediate;
+		this.destReg = destReg;
+	}
 
-    public int getRegister1() {
-        return register1;
-    }
+	public abstract void doOperation();
 
-    public IInstruction(int register1, int immediate, int destReg) {
-        this.register1 = register1;
-        this.immediate = immediate;
-        this.destReg = destReg;
-    }
+	public abstract void updateFlags(int result) throws HarvardComputerArchException;
 
-    public abstract void doOperation();
+	public byte getDestReg() {
+		return destReg;
+	}
 
+	public int getOp1() {
+		return op1;
+	}
 
-    public abstract void updateFlags(int result);
+	public byte getImmediate() {
+		return immediate;
+	}
 
 }

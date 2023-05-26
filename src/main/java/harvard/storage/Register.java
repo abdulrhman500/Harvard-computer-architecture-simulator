@@ -10,7 +10,7 @@ public class Register {
     }
     public Register(){}
 
-    public Byte getData() {
+    public byte getData() {
         return data;
     }
 

@@ -1,40 +1,33 @@
 package harvard.instruction;
 
-import harvard.storage.ProgramCounter;
-import harvard.storage.Register;
+import harvard.harvardComputerExceptions.HarvardComputerArchException;
+import harvard.memory.RegisterFile;
 
 public class JR extends RInstruction {
 
-    public JR(Register register1, Register register2) {
-        super(register1, register2);
-    }
+	public JR(byte op1, byte op2, byte destReg) {
+		super(op1, op2, destReg);
+	}
 
-    @Override
-    public void doOperation() {
+	@Override
+	public void doOperation() {
+		String op1 = adjust(Integer.toBinaryString(getOp1()));
+		String op2 = adjust(Integer.toBinaryString(getOp2()));
+		short newAddress = Short.valueOf(op1 + op2, 2);
+		RegisterFile.getInstance().setPC(newAddress);
+	}
 
-        String reg1 = Integer.toBinaryString(register1.getData()).substring(28, 32);
-        String reg2 = Integer.toBinaryString(register2.getData()).substring(28, 32);
-        String concatenation = reg1 + reg2;
-        result = Byte.parseByte(concatenation, 2);
-        ProgramCounter.getInstance().setData(result);
-        //OR
-//        ProgramCounter.getInstance().setData((byte)Integer.parseInt(register1.getData()+""+ register2.getData()));
-    }
+	private String adjust(String s) {
+		if (s.length() > 8)
+			return s.substring(24);
+		while (s.length() < 8) {
+			s = '0' + s;
+		}
+		return s;
+	}
 
-    @Override
-    public Byte getResult() {
-        // Implementation specific to JR instruction
-        return result;
-    }
-
-    @Override
-    public void updateFlags(int result) {
-        // Implementation specific to JR instruction
-    }
-
-    @Override
-    public void setRegisters(Register register1, Register register2) {
-        this.register1 = register1;
-        this.register2 = register2;
-    }
+	@Override
+	public void updateFlags(int result) throws HarvardComputerArchException {
+		RegisterFile.getInstance().getSREG().updateFlags(EInstuctions.JR, result, (byte) getOp1(), (byte) getOp2());
+	}
 }

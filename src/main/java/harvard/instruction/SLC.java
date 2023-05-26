@@ -1,38 +1,23 @@
 package harvard.instruction;
 
-import harvard.storage.Register;
-import harvard.storage.SREG;
+import harvard.harvardComputerExceptions.HarvardComputerArchException;
+import harvard.memory.RegisterFile;
 
 public class SLC extends IInstruction {
 
+	public SLC(byte register1, byte immediate, byte destReg) {
+		super(register1, immediate, destReg);
+	}
 
-    public SLC(Register register1, Byte immediate) {
-        super(register1, immediate);
-    }
+	@Override
+	public void doOperation() {
+		Byte result = (byte) ((getOp1() << immediate) | (getOp1() >>> (8 - immediate)));
+		RegisterFile.getInstance().setRegister(getDestReg(), result);
+	}
 
-    @Override
-    public void doOperation() {
-        Byte tmpResult = (byte) ((register1.getData() << immediate) | (register1.getData() >>> (8 - immediate)));
-        register1.setData(tmpResult);
-    }
-    @Override
-    public Byte getResult() {
-
-        return result;
-    }
-
-    @Override
-    public void updateFlags(int result) {
-        boolean negative = result < 0;
-        boolean zero = result == 0;
-        SREG.getInstance().setNBit(negative);
-        SREG.getInstance().setZBit(zero);
-    }
-
-    @Override
-    public void setRegisters(Register register1, Byte immediate) {
-        this.register1 = register1;
-        this.immediate= immediate;
-    }
+	@Override
+	public void updateFlags(int result) throws HarvardComputerArchException {
+		RegisterFile.getInstance().getSREG().updateFlags(EInstuctions.SLC, result, (byte) getOp1(), null);
+	}
 
 }

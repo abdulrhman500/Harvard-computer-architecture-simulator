@@ -13,6 +13,7 @@ public abstract class RInstruction implements Instruction {
 
     public abstract void doOperation();
 
+
     public abstract void updateFlags(int result);
 
     public int getOp1() {
@@ -27,13 +28,7 @@ public abstract class RInstruction implements Instruction {
         return destReg;
     }
 
-    public void setOp1(int op1) {
-        this.op1 = op1;
-    }
 
-    public void setOp2(int op2) {
-        this.op2 = op2;
-    }
 
     public void setDestReg(int destReg) {
         this.destReg = destReg;

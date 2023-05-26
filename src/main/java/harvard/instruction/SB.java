@@ -2,6 +2,7 @@ package harvard.instruction;
 
 import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 import harvard.memory.DataMemory;
+import harvard.memory.RegisterFile;
 import harvard.storage.Register;
 
 public class SB extends IInstruction {
@@ -22,6 +23,7 @@ public class SB extends IInstruction {
 
     @Override
     public void updateFlags(int result) {
+        RegisterFile.getInstance().getSREG().updateFlags(EInstuctions.SB, result, (byte) getRegister1(), null);
     }
 
 }

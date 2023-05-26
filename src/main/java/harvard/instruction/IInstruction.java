@@ -5,6 +5,14 @@ import harvard.storage.Register;
 public abstract class IInstruction implements Instruction {
     int register1, immediate, destReg;
 
+    public int getDestReg() {
+        return destReg;
+    }
+
+    public int getRegister1() {
+        return register1;
+    }
+
     public IInstruction(int register1, int immediate, int destReg) {
         this.register1 = register1;
         this.immediate = immediate;

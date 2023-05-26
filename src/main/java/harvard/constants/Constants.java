@@ -7,6 +7,7 @@ public class Constants {
 
     public static final String PROGRAM_PATH="src/main/java/harvard/programs/program.txt";
     public static final int REGISTER_FILE_SIZE = 64;
+
     public static final int EIGHT_ONES_MASK = (1<<8)-1;
     public static final int FOUR_ONES_MASK = (1<<4)-1;
 }

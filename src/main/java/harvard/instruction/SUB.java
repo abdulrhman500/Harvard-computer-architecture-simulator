@@ -21,20 +21,7 @@ public class SUB extends RInstruction {
 
     @Override
     public void updateFlags(int result) {
-        boolean carry = ((result >> 8) & 1) == 1;
-        boolean overflow = false;
-        boolean negative = result < 0;
-        boolean zero = result == 0;
-        int resultSign = (result >> 7) & 1;
-        int register2Sign = (getOp1() >> 7) & 1;
-        if (resultSign == register2Sign)
-            overflow = true;
-        boolean sign = negative ^ overflow;
-        SREG.getInstance().setNBit(negative);
-        SREG.getInstance().setCBit(carry);
-        SREG.getInstance().setVBit(overflow);
-        SREG.getInstance().setZBit(zero);
-        SREG.getInstance().setSBit(sign);
+        RegisterFile.getInstance().getSREG().updateFlags(EInstuctions.SUB, result, (byte) getOp1(), (byte) getOp2());
     }
 
 

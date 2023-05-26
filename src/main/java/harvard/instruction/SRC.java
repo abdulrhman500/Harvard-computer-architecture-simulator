@@ -1,5 +1,6 @@
 package harvard.instruction;
 
+import harvard.memory.RegisterFile;
 import harvard.storage.Register;
 import harvard.storage.SREG;
 
@@ -19,7 +20,7 @@ public class SRC extends IInstruction {
 
     @Override
     public void updateFlags(int result) {
-        // Implementation specific to SLC instruction
+        RegisterFile.getInstance().getSREG().updateFlags(EInstuctions.SRC, result, (byte) getRegister1(), null);
     }
 
 

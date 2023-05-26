@@ -21,9 +21,6 @@ public class Multiply extends RInstruction {
 
     @Override
     public void updateFlags(int result) {
-        boolean negative = result < 0;
-        boolean zero = result == 0;
-        SREG.getInstance().setNBit(negative);
-        SREG.getInstance().setZBit(zero);
+        RegisterFile.getInstance().getSREG().updateFlags(EInstuctions.MUL, result, (byte) getOp1(), (byte) getOp2());
     }
 }

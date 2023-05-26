@@ -1,5 +1,6 @@
 package harvard.instruction;
 
+import harvard.memory.RegisterFile;
 import harvard.storage.Register;
 import harvard.storage.SREG;
 
@@ -18,10 +19,7 @@ public class SLC extends IInstruction {
 
     @Override
     public void updateFlags(int result) {
-        boolean negative = result < 0;
-        boolean zero = result == 0;
-        SREG.getInstance().setNBit(negative);
-        SREG.getInstance().setZBit(zero);
+        RegisterFile.getInstance().getSREG().updateFlags(EInstuctions.SLC, result, (byte) getRegister1(), null);
     }
 
 }

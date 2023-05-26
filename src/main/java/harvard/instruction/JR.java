@@ -1,7 +1,9 @@
 package harvard.instruction;
 
+import harvard.memory.RegisterFile;
 import harvard.storage.ProgramCounter;
 import harvard.storage.Register;
+import harvard.storage.SREG;
 
 public class JR extends RInstruction {
 
@@ -12,18 +14,12 @@ public class JR extends RInstruction {
     @Override
     public void doOperation() {
 
-        String reg1 = Integer.toBinaryString(getOp1()).substring(28, 32);
-        String reg2 = Integer.toBinaryString(getOp2()).substring(28, 32);
-        String concatenation = reg1 + reg2;
-        byte result = Byte.parseByte(concatenation, 2);
-        ProgramCounter.getInstance().setData(result);
-        //OR
-//        ProgramCounter.getInstance().setData((byte)Integer.parseInt(register1.getData()+""+ register2.getData()));
+         //TODO: concatenation
     }
 
     @Override
     public void updateFlags(int result) {
-        // Implementation specific to JR instruction
+        RegisterFile.getInstance().getSREG().updateFlags(EInstuctions.JR, result, (byte) getOp1(), (byte) getOp2());
     }
 
 }

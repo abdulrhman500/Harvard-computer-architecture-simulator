@@ -24,13 +24,12 @@ public class AppDriver {
     }
 
     public short fetch() {
-        ProgramCounter PC = ProgramCounter.getInstance();
-        int pc = PC.getData();
+        int pc = RegisterFile.getInstance().getPC();
         if (pc < 0 || pc >= InstructionMemory.getInstance().getCurrentIntruction())
             return -1;
 
         short curInstruction = InstructionMemory.getInstance().getInstruction(pc);
-        PC.setData((byte) (pc + 1));
+        RegisterFile.getInstance().setPC((byte) (pc + 1));
 
         return curInstruction;
     }

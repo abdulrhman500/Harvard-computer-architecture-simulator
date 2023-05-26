@@ -1,16 +1,14 @@
 package harvard.storage;
 
-public class ProgramCounter extends Register {
+public class ProgramCounter {
 
+    private short data;
     private static ProgramCounter instance = null;
-    public ProgramCounter(){ super();}
-    public ProgramCounter(Byte data){ super(data);}
 
-    public void BEQZ ( Register R1, int imm){
-        if(R1.getData() == 0){
-            setData((byte)(getData()+1+imm));
-        }
-    }
+
+    private ProgramCounter(){ }
+    public ProgramCounter(short data){ this.data = data;}
+
 
     public static ProgramCounter getInstance() {
         if (instance == null)
@@ -18,8 +16,12 @@ public class ProgramCounter extends Register {
         return instance;
     }
 
-    public void jump(Register R1, Register R2){
-        //TODO: implement data = R1 || R2  -> || concatanate
+    public short getData() {
+        return data;
+    }
+
+    public void setData(short data) {
+        this.data = data;
     }
 
 }

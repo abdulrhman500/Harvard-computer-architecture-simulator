@@ -1,7 +1,9 @@
 package harvard.instruction;
 
+import harvard.memory.RegisterFile;
 import harvard.storage.ProgramCounter;
 import harvard.storage.Register;
+import harvard.storage.SREG;
 
 public class BEQZ extends IInstruction {
 
@@ -11,16 +13,18 @@ public class BEQZ extends IInstruction {
 
     @Override
     public void doOperation() {
+
         if (register1 == 0) {
-            ProgramCounter pc = ProgramCounter.getInstance();
-            pc.setData((byte) (pc.getData() + 1 + immediate));
+            RegisterFile.getInstance().setPC((short) (RegisterFile.getInstance().getPC() +1 +immediate));
         }
     }
 
 
+
+
     @Override
     public void updateFlags(int result) {
-        // Implementation specific to BEQZ instruction
+        RegisterFile.getInstance().getSREG().updateFlags(EInstuctions.BEQZ, result, (byte) getRegister1(), null);
     }
 
 }

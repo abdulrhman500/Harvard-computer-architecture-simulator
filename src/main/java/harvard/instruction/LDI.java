@@ -1,5 +1,6 @@
 package harvard.instruction;
 
+import harvard.memory.RegisterFile;
 import harvard.storage.Register;
 
 public class LDI extends IInstruction {
@@ -16,7 +17,7 @@ public class LDI extends IInstruction {
 
     @Override
     public void updateFlags(int result) {
-        // Implementation specific to LDI instruction
+        RegisterFile.getInstance().getSREG().updateFlags(EInstuctions.LDI, result, (byte) getRegister1(), null);
     }
 
 }

@@ -59,6 +59,7 @@ public class AppDriver {
 		if (FETCH == null && DECODE == null && EXECUTE == null) {
 			System.out.println("FINISHED EXECUTION");
 			// TODO: print all and reset
+			System.out.println(RegisterFile.getInstance().toString());
 			return;
 		}
 

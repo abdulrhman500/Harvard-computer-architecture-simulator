@@ -57,4 +57,9 @@ public class Register {
         setData(DataMemory.getInstance().readAddress(add));
     }
 
+    @Override
+    public String toString() {
+        return "Data in decimal = " + data + " Data in binary = " + this.toBinary();
+    }
+
 }

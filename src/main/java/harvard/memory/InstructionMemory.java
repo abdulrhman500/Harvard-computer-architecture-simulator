@@ -1,6 +1,7 @@
 package harvard.memory;
 
 import harvard.constants.Constants;
+import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 
 public class InstructionMemory {
 
@@ -19,8 +20,8 @@ public class InstructionMemory {
 		return instance;
 	}
 
-	public void addInstruction(short instruction) {
-		// TODO: what if the memory is full ?
+	public void addInstruction(short instruction) throws IncorrectMemoryAddressException {
+		if(currentSize<0 || currentSize>=getInstance().instructionMemory.length) throw new IncorrectMemoryAddressException();
 		instructionMemory[currentSize++] = instruction;
 	}
 
@@ -38,8 +39,8 @@ public class InstructionMemory {
 		this.currentSize = 0;
 	}
 
-	public short getInstruction(int pc) {
-		// TODO throw exception if invalid pc
+	public short getInstruction(int pc) throws IncorrectMemoryAddressException {
+		if(pc<0 || pc>=instructionMemory.length) throw new IncorrectMemoryAddressException();
 		return instructionMemory[pc];
 	}
 

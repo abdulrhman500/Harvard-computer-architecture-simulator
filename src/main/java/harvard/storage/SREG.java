@@ -86,5 +86,9 @@ public class SREG extends Register {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "SREG: "+ super.toString();
+	}
 
 }

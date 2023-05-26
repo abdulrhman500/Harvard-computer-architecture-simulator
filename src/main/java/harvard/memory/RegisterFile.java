@@ -41,4 +41,18 @@ public class RegisterFile {
 	public static RegisterFile getInstance() {
 		return registerFile;
 	}
+
+
+	@Override
+	public String toString() {
+		Register[] generalPurposeRegisters = getInstance().registers;
+		String print = "-- Register File --\n";
+		for(int i =0;i<generalPurposeRegisters.length;i++){
+			print+= "Register No "+ i +" "+ generalPurposeRegisters[i].toString();
+		}
+		print+= ProgramCounter.getInstance().toString()+"\n";
+		print+= SREG.getInstance().toString()+"\n";
+		return print;
+
+	}
 }

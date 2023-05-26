@@ -1,5 +1,6 @@
 package harvard.storage;
 
+import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 import harvard.memory.DataMemory;
 import harvard.utils.BaseConversion;
 
@@ -52,7 +53,7 @@ public class Register {
         data = (byte)( data >>> imm | data << 8 - imm);
     }
 
-    public void loadByte(int add){
+    public void loadByte(int add) throws IncorrectMemoryAddressException {
         setData(DataMemory.getInstance().readAddress(add));
     }
 

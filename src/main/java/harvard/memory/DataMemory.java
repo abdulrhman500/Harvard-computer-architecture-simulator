@@ -18,21 +18,18 @@ public class DataMemory {
         return instance;
     }
 
-    public Byte readAddress(int address) {
-     //TODO: implement this method
-        return null;
+    public Byte readAddress(int address) throws IncorrectMemoryAddressException {
+        if (address > DATA_MEMORY_SIZE-1 || address < 0) throw new IncorrectMemoryAddressException();
+        return  (getInstance().memory)[address];
     }
 
     public void writeAddress(int address, Byte data) throws IncorrectMemoryAddressException {
-        //TODO: implement this method
-        if (address > DATA_MEMORY_SIZE-1 || address < 0)
-        {
-            throw new IncorrectMemoryAddressException();
-        }
+        if (address > DATA_MEMORY_SIZE-1 || address < 0) throw new IncorrectMemoryAddressException();
+        (getInstance().memory)[address] = data;
     }
 
-    public void store(Register R1, int add){
-        //TODO: exception
+    public void store(Register R1, int add) throws IncorrectMemoryAddressException {
+        if (add > DATA_MEMORY_SIZE-1 || add < 0) throw new IncorrectMemoryAddressException();
         memory[add] = R1.getData();
     }
 

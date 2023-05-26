@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import harvard.constants.Constants;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
+import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 import harvard.memory.InstructionMemory;
 import harvard.memory.RegisterFile;
 import harvard.operation.ALU;
@@ -19,7 +20,7 @@ public class AppDriver {
 //		SREG.getInstance().setData((byte) 0);
 	}
 
-	public short fetch() {
+	public short fetch() throws IncorrectMemoryAddressException {
 		short pc = RegisterFile.getInstance().getPC();
 		Short curInstruction = InstructionMemory.getInstance().getInstruction(pc);
 		RegisterFile.getInstance().setPC((short) (pc + 1));

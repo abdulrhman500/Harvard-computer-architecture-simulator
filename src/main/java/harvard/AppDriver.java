@@ -3,6 +3,8 @@ package harvard;
 import harvard.constants.Constants;
 import harvard.exception.AssemblySyntaxError;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
+import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
+
 import harvard.memory.DataMemory;
 import harvard.memory.InstructionMemory;
 import harvard.memory.RegisterFile;
@@ -24,6 +26,7 @@ public class AppDriver {
 		InstructionMemory.getInstance();
 		DataMemory.getInstance();
 	}
+
 
 	public Short fetch() throws HarvardComputerArchException {
 		short pc = RegisterFile.getInstance().getPC();
@@ -121,6 +124,7 @@ public class AppDriver {
 		}
 		return operand;
 	}
+
 
 	private boolean isExecFinished() {
 		return FETCH == null && DECODE == null && EXECUTE == null;

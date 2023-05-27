@@ -36,4 +36,8 @@ public class ProgramCounter {
 				+ Printer.extendBinaryNumber(Integer.toBinaryString(data), Constants.INSTRUCTION_SIZE);
 	}
 
+    @Override
+    public String toString() {
+        return "Program Counter "+ super.toString();
+    }
 }

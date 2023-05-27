@@ -22,14 +22,14 @@ public class DataMemory {
 	public Byte readAddress(int address) throws IncorrectMemoryAddressException {
 		if (address > DATA_MEMORY_SIZE - 1 || address < 0)
 			throw new IncorrectMemoryAddressException();
-		System.out.println("Read from Data Memory. Address : " + address + ", Data : " + memory[address]);
+		System.out.println("Data Memory| Accessing Address "+address+" to read "+memory[address]);
 		return memory[address];
 	}
 
 	public void writeAddress(int address, Byte data) throws IncorrectMemoryAddressException {
 		if (address > DATA_MEMORY_SIZE - 1 || address < 0)
 			throw new IncorrectMemoryAddressException();
-		System.out.println("Write in Data Memory. Address : " + address + ", Data : " + data);
+		System.out.println("Data Memory| Accessing Address "+address+" to write "+data);
 		memory[address] = data;
 	}
 
@@ -44,14 +44,15 @@ public class DataMemory {
 		// TODO: ask about the print format
 		System.out.println();
 		String print = new String("-- Data memory --\n");
-		for (Byte data : memory) {
-			print += (data == null ? "null" : data) + "\n";
-		}
+    // TODO: handle null values
+	  for (int memLoc =0;memLoc<memory.length;memLoc++) {
+        print += "Memory Location "+memLoc+" data in decimal="+memory[memLoc]+" in binary="+Integer.toBinaryString(0xFFFF & memory[memLoc])+"\n";
+    }
+    print+= "-- Data Memory End --";
 		return print;
 	}
 
 	public void reset() {
 		memory = new Byte[DATA_MEMORY_SIZE];
 	}
-
 }

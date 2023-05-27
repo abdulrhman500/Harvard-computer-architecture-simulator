@@ -51,14 +51,13 @@ public class RegisterFile {
 
 	@Override
 	public String toString() {
-		Register[] generalPurposeRegisters = getInstance().registers;
 		String print = "-- Register File --\n";
-		for (int i = 0; i < generalPurposeRegisters.length; i++) {
-			print += "Register R" + i + " " + generalPurposeRegisters[i].toString() + '\n';
-		}
-		print += ProgramCounter.getInstance().toString() + "\n";
+    print += ProgramCounter.getInstance().toString() + "\n";
 		print += SREG.getInstance().toString() + "\n";
+		for (int i = 0; i < registers.length; i++) {
+			print += "Register R" + i + " " + registers[i].toString() + '\n';
+		}
+    print+="-- Register File End -- ";
 		return print;
-
 	}
 }

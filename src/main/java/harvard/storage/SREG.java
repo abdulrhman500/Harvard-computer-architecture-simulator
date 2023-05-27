@@ -93,5 +93,9 @@ public class SREG extends Register {
 	public String toString() {
 		return "SREG: " + super.toString();
 	}
+	@Override
+	public String toString() {
+		return "SREG "+ super.toString();
+	}
 
 }

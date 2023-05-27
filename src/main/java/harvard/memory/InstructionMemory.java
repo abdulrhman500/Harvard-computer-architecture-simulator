@@ -22,9 +22,11 @@ public class InstructionMemory {
 	}
 
 	public void addInstruction(short instruction) throws IncorrectMemoryAddressException {
-		if (currentSize < 0 || currentSize >= getInstance().instructionMemory.length)
-			throw new IncorrectMemoryAddressException();
+		if(currentSize>=instructionMemory.length) 
+      throw new IncorrectMemoryAddressException("Memory is Full");
+		System.out.println("Instruction Memory| Accessing Address "+currentSize+" to write "+instruction);
 		instructionMemory[currentSize++] = instruction;
+
 	}
 
 	@Override
@@ -33,7 +35,7 @@ public class InstructionMemory {
 		int idx = 0;
 		for (; idx != instructionMemory.length; idx++) {
 
-			print += (instructionMemory[idx] == null ? null
+			print += "Memory Location "+idx+ ": " + (instructionMemory[idx] == null ? null
 					: Printer.extendBinaryNumber(Integer.toBinaryString(instructionMemory[idx]),
 							Constants.INSTRUCTION_SIZE))
 					+ "\n";
@@ -47,9 +49,11 @@ public class InstructionMemory {
 		this.currentSize = 0;
 	}
 
-	public Short getInstruction(int pc) throws IncorrectMemoryAddressException {
-		if (pc < 0 || pc >= instructionMemory.length)
-			throw new IncorrectMemoryAddressException();
+
+	public short getInstruction(int pc) throws IncorrectMemoryAddressException {
+		if(pc<0 || pc>=instructionMemory.length) throw new IncorrectMemoryAddressException();
+		System.out.println("Instruction Memory| Accessing Address "+pc+" to read "+instructionMemory[pc]);
+
 		return instructionMemory[pc];
 	}
 

@@ -1,5 +1,7 @@
 package harvard.storage;
 
+import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
+import harvard.memory.DataMemory;
 import harvard.constants.Constants;
 import harvard.utils.BaseConversion;
 import printer.Printer;

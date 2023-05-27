@@ -1,19 +1,20 @@
 package harvard.instruction;
 
+import harvard.memory.RegisterFile;
 import harvard.storage.Register;
 
 public abstract class RInstruction implements Instruction{
     Register register1 = null, register2 = null;
+    String reg1;
     Byte result = null;
-    RInstruction(Register register1 , Register register2){
-        this.register1=register1;
-        this.register2= register2;
+    RInstruction(String register1 , String register2){
+        this.reg1 = register1;
+        this.register1= RegisterFile.getInstance().getRegister(register1);
+        this.register2= RegisterFile.getInstance().getRegister(register2);
     }
     abstract void doOperation();
 
-    abstract Byte getResult();
+    abstract void setOperation();
 
-    abstract void updateFlags(int result);
-
-    abstract void setRegisters(Register register1, Register register2);
+    abstract void updateFlags();
 }

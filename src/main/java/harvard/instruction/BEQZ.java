@@ -1,38 +1,34 @@
 package harvard.instruction;
 
-import harvard.storage.ProgramCounter;
+import harvard.constants.Constants;
+import harvard.memory.RegisterFile;
 import harvard.storage.Register;
+import harvard.storage.SREG;
 
 public class BEQZ extends IInstruction {
 
-    public BEQZ(Register register1, Byte immediate) {
+    public BEQZ(String register1, Byte immediate) {
         super(register1, immediate);
     }
 
     @Override
     public void doOperation() {
-        if (register1.getData() == 0) {
-            ProgramCounter pc = ProgramCounter.getInstance();
-            pc.setData((byte) (pc.getData() + 1 + immediate));
+        if (((Register)register1).getData() == 0) {
+            result = (short) (RegisterFile.getInstance().getRegister(Constants.PC_NAME_REGISTER).getData() + 1 + immediate);
         }
     }
 
     @Override
-    public Byte getResult() {
-        // Implementation specific to BEQZ instruction
-        return result;
+    public void setOperation() {
+        RegisterFile.getInstance().setRegister(Constants.PC_NAME_REGISTER,(byte) (result*1L));
     }
 
-    @Override
-    public void updateFlags(int result) {
-        // Implementation specific to BEQZ instruction
-    }
 
     @Override
-    public void setRegisters(Register register1, Byte immediate) {
-        this.register1 = register1;
-        this.immediate = immediate;
+    public void updateFlags() {
+        SREG.updateFlags(EInstuctions.BEQZ,this.result, this.register1, null);
     }
+
 
 
 }

@@ -1,5 +1,6 @@
 package harvard.memory;
 
+import harvard.constants.Constants;
 import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 import harvard.storage.Register;
 
@@ -19,11 +20,13 @@ public class DataMemory {
     }
 
     public Byte readAddress(int address) {
+        address = address & MEMORY_BITS_NUMBER;
      //TODO: implement this method
         return null;
     }
 
     public void writeAddress(int address, Byte data) throws IncorrectMemoryAddressException {
+        address = address & MEMORY_BITS_NUMBER;
         //TODO: implement this method
         if (address > DATA_MEMORY_SIZE-1 || address < 0)
         {

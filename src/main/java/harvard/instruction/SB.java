@@ -1,37 +1,36 @@
 package harvard.instruction;
 
+import harvard.constants.Constants;
 import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 import harvard.memory.DataMemory;
+import harvard.memory.RegisterFile;
 import harvard.storage.Register;
+import harvard.storage.SREG;
 
 public class SB extends IInstruction {
 
-    public SB(Register register1, Byte immediate) {
+    public SB(String register1, Byte immediate) {
         super(register1, immediate);
     }
 
     @Override
     public void doOperation() {
-        try {
-            DataMemory.getInstance().writeAddress(immediate,register1.getData());
-        } catch (IncorrectMemoryAddressException e) {
-            throw new RuntimeException(e);
+        result =(short) (((Register)RegisterFile.getInstance().getRegister(reg1)).getData() & Constants.BYTE_NUMBER_BITS);
+    }
+
+    @Override
+    public void setOperation() throws IncorrectMemoryAddressException {
+        try{
+            DataMemory.getInstance().writeAddress(immediate,(byte)(result & Constants.BYTE_NUMBER_BITS));
         }
-
+        catch (IncorrectMemoryAddressException e) {
+            throw new IncorrectMemoryAddressException(e.getMessage());
+        }
     }
 
     @Override
-    public Byte getResult() {
-        return result;
-    }
-
-    @Override
-    public void updateFlags(int result) {
-    }
-
-    @Override
-    public void setRegisters(Register register1, Byte immediate) {
-        this.register1 = register1;
-        this.immediate = immediate;
+    public void updateFlags() {
+        //TODO: take care of this
+        SREG.updateFlags(EInstuctions.SB,this.result, (Register) this.register1, null);
     }
 }

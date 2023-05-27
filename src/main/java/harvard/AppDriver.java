@@ -40,12 +40,12 @@ public class AppDriver {
 //       Fetch.fetch(pc);
 //        this.init();
         app.run("");
-        Register r1 = new Register((byte)5);
-        Register r2 = new Register((byte)-8);
+//        Register r1 = new Register((byte)5);
+//        Register r2 = new Register((byte)-8);
 
-        ADD add= new ADD(r1,r2);
-        add.doOperation();
-        System.out.println(add.getResult());
+//        ADD add= new ADD(r1,r2);
+//        add.doOperation();
+//        System.out.println(add.getResult());
 
 
 

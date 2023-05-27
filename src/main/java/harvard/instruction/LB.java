@@ -1,34 +1,33 @@
 package harvard.instruction;
 
+import harvard.constants.Constants;
 import harvard.memory.DataMemory;
+import harvard.memory.RegisterFile;
 import harvard.storage.Register;
+import harvard.storage.SREG;
 
 public class LB extends IInstruction {
 
 
-    public LB(Register register1, Byte immediate) {
+    public LB(String register1, Byte immediate) {
         super(register1, immediate);
     }
 
     @Override
     public void doOperation() {
-        register1.setData(DataMemory.getInstance().readAddress(immediate));
+        result = (short)(DataMemory.getInstance().readAddress(immediate));
+    }
+
+
+
+    @Override
+    public void setOperation() {
+        RegisterFile.getInstance().setRegister(reg1,(byte)(result*1L));
     }
 
     @Override
-    public Byte getResult() {
-
-        return result;
+    public void updateFlags() {
+        SREG.updateFlags(EInstuctions.LB,this.result, this.register1, null);
     }
 
-    @Override
-    public void updateFlags(int result) {
-
-    }
-
-    @Override
-    public void setRegisters(Register register1, Byte immediate) {
-        this.register1 = register1;
-       this.immediate= immediate;
-    }
 }

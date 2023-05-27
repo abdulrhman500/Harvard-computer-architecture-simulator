@@ -1,5 +1,6 @@
 package harvard.instruction;
 
+import harvard.memory.RegisterFile;
 import harvard.storage.Register;
 import harvard.storage.SREG;
 
@@ -7,7 +8,7 @@ import static harvard.constants.Constants.EIGHT_ONES_MASK;
 
 public class ADD extends RInstruction {
 
-    public ADD(Register r1, Register r2) {
+    public ADD(String r1, String r2) {
         super(r1, r2);
     }
     @Override
@@ -16,37 +17,18 @@ public class ADD extends RInstruction {
         int tmp2 = register2.getData();
         int tmpResult = tmp1 + tmp2;
         result = (byte) (tmpResult & EIGHT_ONES_MASK);
-        updateFlags(tmpResult);
+        updateFlags();
     }
 
     @Override
-    public Byte getResult() {
-        return result;
+    public void setOperation() {
+        RegisterFile.getInstance().setRegister(reg1,result);
     }
 
     @Override
-    public void updateFlags(int result) {
-
-        boolean carry = ((result >> 8) & 1) == 1;
-        boolean overflow = false;
-        boolean negative = result < 0;
-        boolean zero = result == 0;
-        int resultSign = (result>>7)&1;
-        int register1Sign = (register1.getData() >> 7) & 1;
-        int register2Sign = (register1.getData() >> 7) & 1;
-        if ((register1Sign == register2Sign)&&resultSign != register1Sign)
-            overflow = true;
-        boolean sign = negative ^ overflow;
-        SREG.getInstance().setNBit(negative);
-        SREG.getInstance().setCBit(carry);
-        SREG.getInstance().setVBit(overflow);
-        SREG.getInstance().setZBit(zero);
-        SREG.getInstance().setSBit(sign);
+    void updateFlags() {
+        SREG.updateFlags(EInstuctions.ADD,this.result, this.register1, this.register2);
     }
 
-    @Override
-    public void setRegisters(Register register1, Register register2) {
-        this.register1 = register1;
-        this.register2 = register2;
-    }
+
 }

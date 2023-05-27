@@ -1,32 +1,29 @@
 package harvard.instruction;
 
+import harvard.constants.Constants;
+import harvard.memory.RegisterFile;
 import harvard.storage.Register;
+import harvard.storage.SREG;
 
 public class LDI extends IInstruction {
 
-    public LDI(Register register1, Byte immediate) {
+    public LDI(String register1, Byte immediate) {
         super(register1, immediate);
     }
 
     @Override
     public void doOperation() {
-        // Implementation specific to LDI instruction
+        result = (short)(RegisterFile.getInstance().getRegister(reg1).getData());
+    }
+
+
+    @Override
+    public void setOperation() {
+        RegisterFile.getInstance().setRegister(reg1,immediate);
     }
 
     @Override
-    public Byte getResult() {
-        // Implementation specific to LDI instruction
-        return result;
-    }
-
-    @Override
-    public void updateFlags(int result) {
-        // Implementation specific to LDI instruction
-    }
-
-    @Override
-    public void setRegisters(Register register1, Byte immediate) {
-        this.register1 = register1;
-        this.immediate = immediate;
+    public void updateFlags() {
+        SREG.updateFlags(EInstuctions.LDI,this.result, this.register1, null);
     }
 }

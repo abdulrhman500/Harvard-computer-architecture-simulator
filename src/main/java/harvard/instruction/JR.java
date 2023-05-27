@@ -1,40 +1,32 @@
 package harvard.instruction;
 
-import harvard.storage.ProgramCounter;
-import harvard.storage.Register;
+import harvard.constants.Constants;
+import harvard.memory.RegisterFile;
+import harvard.storage.SREG;
 
 public class JR extends RInstruction {
 
-    public JR(Register register1, Register register2) {
+    public JR(String register1, String register2) {
         super(register1, register2);
     }
 
     @Override
     public void doOperation() {
 
-        String reg1 = Integer.toBinaryString(register1.getData()).substring(28, 32);
-        String reg2 = Integer.toBinaryString(register2.getData()).substring(28, 32);
-        String concatenation = reg1 + reg2;
-        result = Byte.parseByte(concatenation, 2);
-        ProgramCounter.getInstance().setData(result);
-        //OR
-//        ProgramCounter.getInstance().setData((byte)Integer.parseInt(register1.getData()+""+ register2.getData()));
+        byte tmp1 = register1.getData();
+        byte tmp2 = register2.getData();
+        result = Byte.parseByte(tmp1 +"" +tmp2);
     }
 
     @Override
-    public Byte getResult() {
-        // Implementation specific to JR instruction
-        return result;
+    void setOperation() {
+        RegisterFile.getInstance().setRegister(Constants.PC_NAME_REGISTER,result);
     }
 
-    @Override
-    public void updateFlags(int result) {
-        // Implementation specific to JR instruction
-    }
 
     @Override
-    public void setRegisters(Register register1, Register register2) {
-        this.register1 = register1;
-        this.register2 = register2;
+    public void updateFlags() {
+        SREG.updateFlags(EInstuctions.JR,this.result, this.register1, this.register2);
     }
+
 }

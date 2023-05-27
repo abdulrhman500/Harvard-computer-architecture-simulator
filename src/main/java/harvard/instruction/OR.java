@@ -1,12 +1,13 @@
 package harvard.instruction;
 
+import harvard.memory.RegisterFile;
 import harvard.storage.Register;
 import harvard.storage.SREG;
 
 import static harvard.constants.Constants.EIGHT_ONES_MASK;
 
 public class OR extends RInstruction {
-    public OR(Register register1, Register register2) {
+    public OR(String register1, String register2) {
         super(register1, register2);
     }
 
@@ -16,28 +17,16 @@ public class OR extends RInstruction {
         int tmp2 = register2.getData();
         int tmpResult = tmp1 | tmp2;
         result = (byte) (tmpResult & EIGHT_ONES_MASK);
-        updateFlags(tmpResult);
     }
 
     @Override
-    Byte getResult() {
-        return null;
+    public void setOperation() {
+        RegisterFile.getInstance().setRegister(reg1,result);
     }
 
     @Override
-    void updateFlags(int result) {
-
-        boolean negative = result < 0;
-        boolean zero = result == 0;
-        SREG.getInstance().setNBit(negative);
-        SREG.getInstance().setZBit(zero);
-    }
-
-    @Override
-    void setRegisters(Register register1, Register register2) {
-        this.register1 = register1;
-        this.register2 = register2;
-
+    public void updateFlags() {
+        SREG.updateFlags(EInstuctions.OR,this.result, this.register1, this.register2);
     }
 
 }

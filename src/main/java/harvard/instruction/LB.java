@@ -1,6 +1,7 @@
 package harvard.instruction;
 
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
+import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 import harvard.memory.DataMemory;
 import harvard.memory.RegisterFile;
 
@@ -11,7 +12,7 @@ public class LB extends IInstruction {
 	}
 
 	@Override
-	public void doOperation() {
+	public void doOperation() throws IncorrectMemoryAddressException {
 		byte data = (DataMemory.getInstance().readAddress(getImmediate()));
 		RegisterFile.getInstance().setRegister(getDestReg(), data);
 	}

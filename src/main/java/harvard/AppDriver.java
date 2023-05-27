@@ -3,6 +3,8 @@ package harvard;
 import harvard.constants.Constants;
 import harvard.exception.AssemblySyntaxError;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
+import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
+import harvard.memory.DataMemory;
 import harvard.memory.InstructionMemory;
 import harvard.memory.RegisterFile;
 import harvard.operation.ALU;
@@ -21,7 +23,7 @@ public class AppDriver {
 //		SREG.getInstance().setData((byte) 0);
 	}
 
-	public short fetch() {
+	public short fetch() throws IncorrectMemoryAddressException {
 		short pc = RegisterFile.getInstance().getPC();
 		Short curInstruction = InstructionMemory.getInstance().getInstruction(pc);
 		RegisterFile.getInstance().setPC((short) (pc + 1));
@@ -60,6 +62,9 @@ public class AppDriver {
 		if (FETCH == null && DECODE == null && EXECUTE == null) {
 			System.out.println("FINISHED EXECUTION");
 			// TODO: print all and reset
+			System.out.println(RegisterFile.getInstance());
+			System.out.println(InstructionMemory.getInstance().toString());
+			System.out.println(DataMemory.getInstance().toString());
 			return;
 		}
 
@@ -119,7 +124,7 @@ public class AppDriver {
 		return operand;
 	}
 
-	public void run(String path) throws AssemblySyntaxError {
+	public void run(String path) throws AssemblySyntaxError, IncorrectMemoryAddressException {
 		this.init();
 		// parser
 		// load to memory

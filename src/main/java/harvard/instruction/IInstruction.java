@@ -1,6 +1,7 @@
 package harvard.instruction;
 
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
+import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 
 public abstract class IInstruction implements Instruction {
 	byte op1, immediate, destReg;
@@ -11,7 +12,7 @@ public abstract class IInstruction implements Instruction {
 		this.destReg = destReg;
 	}
 
-	public abstract void doOperation();
+	public abstract void doOperation() throws IncorrectMemoryAddressException;
 
 	public abstract void updateFlags(int result) throws HarvardComputerArchException;
 

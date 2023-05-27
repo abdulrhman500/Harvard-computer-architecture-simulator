@@ -24,5 +24,9 @@ public class ProgramCounter {
         this.data = data;
     }
 
+    @Override
+    public String toString() {
+        return "Program Counter "+ super.toString();
+    }
 }
 

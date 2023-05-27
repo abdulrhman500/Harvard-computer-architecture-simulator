@@ -18,34 +18,31 @@ public class DataMemory {
         return instance;
     }
 
-    public Byte readAddress(int address) {
-     //TODO: implement this method
-        return null;
+    public Byte readAddress(int address) throws IncorrectMemoryAddressException {
+        if(address<0 || address>=memory.length)throw new IncorrectMemoryAddressException();
+        System.out.println("Data Memory| Accessing Address "+address+" to read "+memory[address]);
+        return memory[address];
     }
 
     public void writeAddress(int address, Byte data) throws IncorrectMemoryAddressException {
-        //TODO: implement this method
-        if (address > DATA_MEMORY_SIZE-1 || address < 0)
-        {
-            throw new IncorrectMemoryAddressException();
-        }
+        if(address<0 || address>=memory.length)throw new IncorrectMemoryAddressException();
+        System.out.println("Data Memory| Accessing Address "+address+" to write "+data);
+        memory[address] = data;
+
     }
 
-    public void store(Register R1, int add){
-        //TODO: exception
-        memory[add] = R1.getData();
-    }
 
     @Override
-    public String toString(){
-        //TODO: ask about the print format
+    public String toString() {
         String print = new String();
-        for(Byte data: memory)
-        {
-            print+= data;
+        print += "-- Data Memory --\n";
+        for (int memLoc =0;memLoc<memory.length;memLoc++) {
+            print += "Memory Location "+memLoc+" data in decimal="+memory[memLoc]+" in binary="+Integer.toBinaryString(0xFFFF & memory[memLoc])+"\n";
         }
+        print+= "-- Data Memory End --";
         return print;
     }
+
 
     public void reset() {
         memory = new Byte[DATA_MEMORY_SIZE];

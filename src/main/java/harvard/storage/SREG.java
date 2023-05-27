@@ -93,5 +93,9 @@ public class SREG extends Register {
 		SREG.getInstance().setZBit(zero);
 		SREG.getInstance().setSBit(sign);
 	}
+	@Override
+	public String toString() {
+		return "SREG "+ super.toString();
+	}
 
 }

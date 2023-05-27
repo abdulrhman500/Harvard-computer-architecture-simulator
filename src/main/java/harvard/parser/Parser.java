@@ -1,6 +1,7 @@
 package harvard.parser;
 
 import harvard.exception.AssemblySyntaxError;
+import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 import harvard.memory.InstructionMemory;
 
 import java.io.File;
@@ -47,7 +48,7 @@ public class Parser {
 
     }
 
-    public void parse() throws AssemblySyntaxError {
+    public void parse() throws AssemblySyntaxError, IncorrectMemoryAddressException {
         setupReader();
         read();
         cleanInput();
@@ -65,7 +66,7 @@ public class Parser {
         close();
     }
 
-    private void decode(String[] parts) {
+    private void decode(String[] parts) throws IncorrectMemoryAddressException {
 
         int opCode = getOpCode(parts[0]);
         int secondInput = getR1Number(parts[1]);

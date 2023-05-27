@@ -73,9 +73,6 @@ public class ALU {
 	}
 
 	public void clear() {
-		opCode = null;
-		operand1 = null;
-		operand2 = null;
-		destReg = null;
+		instance = new ALU();
 	}
 }

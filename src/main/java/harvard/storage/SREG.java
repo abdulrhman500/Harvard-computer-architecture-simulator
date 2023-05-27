@@ -1,5 +1,6 @@
 package harvard.storage;
 
+import app.App;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
 import harvard.instruction.EInstuctions;
 
@@ -20,6 +21,10 @@ public class SREG extends Register {
 		if (instance == null)
 			instance = new SREG();
 		return instance;
+	}
+
+	public void setSREG(short data){
+		instance.setData((byte) data);
 	}
 
 	public void setZBit(boolean setter) {
@@ -54,39 +59,40 @@ public class SREG extends Register {
 	public void updateFlags(EInstuctions Einstruction, int result, Byte register1, Byte register2)
 			throws HarvardComputerArchException {
 		switch (Einstruction) {
-		case ADD:
-			setCBit((result & (1 << 8)) > 0);
-			// TODO: check about the zero
-			setVBit((register1 >= 0 && register2 >= 0 && (byte) result < 0)
-					|| (register1 < 0 && register2 < 0 && (byte) result >= 0));
-			setNBit((byte) result < 0);
-			setSBit(((getData() >> 2 & 1) > 0) ^ ((getData() >> 3 & 1) > 0));
-			setZBit(result == 0);
-			break;
-		case SUB:
-			setVBit((register1 >= 0 && register2 >= 0 && (byte) result < 0)
-					|| (register1 < 0 && register2 < 0 && (byte) result >= 0));
-			setNBit((byte) result < 0);
-			setSBit(((getData() >> 2 & 1) > 0) ^ ((getData() >> 3 & 1) > 0));
-			setZBit(result == 0);
-			break;
-		case MUL:
-			// TODO: N & Z
-			setNBit((byte) result < 0);
-			setZBit(result == 0);
-			break;
-		case AND, OR, SLC, SRC:
-			// TODO: N & Z
-			setNBit((byte) result < 0);
-			setZBit(result == 0);
-			break;
+			case ADD:
+				setCBit((result & (1 << 8)) > 0);
+				// TODO: check about the zero
+				setVBit((register1 >= 0 && register2 >= 0 && (byte) result < 0)
+						|| (register1 < 0 && register2 < 0 && (byte) result >= 0));
+				setNBit((byte) result < 0);
+				setSBit(((getData() >> 2 & 1) > 0) ^ ((getData() >> 3 & 1) > 0));
+				setZBit(result == 0);
+				break;
+			case SUB:
+				setVBit((register1 >= 0 && register2 >= 0 && (byte) result < 0)
+						|| (register1 < 0 && register2 < 0 && (byte) result >= 0));
+				setNBit((byte) result < 0);
+				setSBit(((getData() >> 2 & 1) > 0) ^ ((getData() >> 3 & 1) > 0));
+				setZBit(result == 0);
+				break;
+			case MUL:
+				// TODO: N & Z
+				setNBit((byte) result < 0);
+				setZBit(result == 0);
+				break;
+			case AND, OR, SLC, SRC:
+				// TODO: N & Z
+				setNBit((byte) result < 0);
+				setZBit(result == 0);
+				break;
 
-		default:
-			throw new HarvardComputerArchException("wrong instr");
+			default:
+				throw new HarvardComputerArchException("wrong instr");
 
 		}
 
 		System.out.println(SREG.getInstance().toString());
+		App.output(SREG.getInstance().toString());
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package harvard.memory;
 
+import app.App;
 import harvard.constants.Constants;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
 import harvard.storage.ProgramCounter;
@@ -16,7 +17,6 @@ public class RegisterFile {
 		for (int i = 0; i < Constants.REGISTER_FILE_SIZE; i++) {
 			registers[i] = new Register();
 		}
-
 	}
 
 	public Register getRegister(int index) {
@@ -25,6 +25,7 @@ public class RegisterFile {
 
 	public void setRegister(byte index, byte data) {
 		System.out.println("Set register R" + index + " : " + data);
+		App.output("Set register R" + index + " : " + data);
 		registers[index].setData(data);
 	}
 
@@ -38,6 +39,7 @@ public class RegisterFile {
 		}
 		ProgramCounter.getInstance().setData(data);
 		System.out.print("Set PC : " + ProgramCounter.getInstance().getData() + "\n");
+		App.output("Set PC : " + ProgramCounter.getInstance().getData() + "\n");
 	}
 
 	public SREG getSREG() {
@@ -48,6 +50,12 @@ public class RegisterFile {
 		if (registerFile == null)
 			registerFile = new RegisterFile();
 		return registerFile;
+	}
+
+	public void reset() throws HarvardComputerArchException {
+		registerFile = new RegisterFile();
+		registerFile.setPC((short) 0);
+		registerFile.getSREG().setSREG((short) 0);
 	}
 
 	@Override

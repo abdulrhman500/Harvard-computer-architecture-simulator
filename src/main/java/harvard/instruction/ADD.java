@@ -14,7 +14,7 @@ public class ADD extends RInstruction {
 
 	@Override
 	public void doOperation() throws HarvardComputerArchException {
-		int tmpResult = getOp1() + getOp2();
+		int tmpResult = ((int)getOp1() + getOp2());
 		byte result = (byte) (tmpResult & EIGHT_ONES_MASK);
 		RegisterFile.getInstance().setRegister(getDestReg(), result);
 		updateFlags(tmpResult);

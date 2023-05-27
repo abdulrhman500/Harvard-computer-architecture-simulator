@@ -1,5 +1,6 @@
 package harvard;
 
+import app.App;
 import harvard.constants.Constants;
 import harvard.exception.AssemblySyntaxError;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
@@ -12,6 +13,7 @@ import harvard.parser.Parser;
 import printer.Printer;
 
 import java.io.IOException;
+import java.lang.reflect.Member;
 import java.util.Arrays;
 
 public class AppDriver {
@@ -19,11 +21,20 @@ public class AppDriver {
 	private Short FETCH, DECODE, EXECUTE;
 	private boolean isBranch = false;
 
-	private void init() {
+	public static String printGUI = new String();
+
+	public void init() {
 		clock = 1;
 		RegisterFile.getInstance();
 		InstructionMemory.getInstance();
 		DataMemory.getInstance();
+	}
+
+	public void reset() throws HarvardComputerArchException {
+		InstructionMemory.getInstance().reset();
+		DataMemory.getInstance().reset();
+		ALU.getInstance().clear();
+		RegisterFile.getInstance().reset();
 	}
 
 	public Short fetch() throws HarvardComputerArchException {
@@ -62,29 +73,35 @@ public class AppDriver {
 		}
 
 		System.out.println("Start of Clock Cycle: " + clock);
-
+		App.output("Start of Clock Cycle: " + clock);
 		EXECUTE = DECODE;
 		DECODE = FETCH;
 		FETCH = fetch();
 
 		if (FETCH != null) {
 			System.out.println("current Fetched Instruction: " + Printer.printInstruction(FETCH));
+			App.output("current Fetched Instruction: " + Printer.printInstruction(FETCH));
 		} else {
 			System.out.println("No Fetch Instruction");
+			App.output("No Fetch Instruction");
 		}
 
 		if (DECODE != null) {
 			System.out.println("current Decoded Instruction: " + Printer.printInstruction(DECODE));
+			App.output("current Decoded Instruction: " + Printer.printInstruction(DECODE));
 		} else {
 			System.out.println("No Decode Instruction");
+			App.output("No Decode Instruction");
 		}
 
 		if (EXECUTE != null) {
 			System.out.println("current Executed Instruction: " + Printer.printInstruction(EXECUTE));
+			App.output("current Executed Instruction: " + Printer.printInstruction(EXECUTE));
 			ALU.getInstance().execute();
 			isBranch |= ALU.getInstance().checkForBranch();
 		} else {
 			System.out.println("No Execute Instruction");
+			App.output("No Execute Instruction");
 		}
 
 		if (DECODE != null) {
@@ -93,6 +110,8 @@ public class AppDriver {
 
 		System.out.println("End of Clock Cycle: " + clock);
 		System.out.println();
+		App.output("End of Clock Cycle: " + clock);
+		App.output("\n");
 		clock++;
 
 	}
@@ -133,8 +152,9 @@ public class AppDriver {
 	public void run(String path) throws AssemblySyntaxError, HarvardComputerArchException {
 		Parser parser = new Parser(path);
 		parser.parse(); // this mean that instructions are read from file and loaded to instruction
-						// memory as binary
+		// memory as binary
 		System.out.println();
+		App.output("\n");
 		// next is to apply dataPath
 		do {
 			runNext();
@@ -142,16 +162,14 @@ public class AppDriver {
 
 		System.out.println("FINISHED EXECUTION\n");
 		System.out.println(RegisterFile.getInstance().toString());
-//		System.out.println(DataMemory.getInstance().toString());
-//		System.out.println(InstructionMemory.getInstance().toString());
-
+		App.output("FINISHED EXECUTION\n");
+		App.output(RegisterFile.getInstance().toString());
+		System.out.println(DataMemory.getInstance().toString());
+		App.output(DataMemory.getInstance().toString());
+		System.out.println(InstructionMemory.getInstance().toString());
+		App.output(InstructionMemory.getInstance().toString());
+		reset();
 	}
-
 	// TODO : handle BEQZ instruction
 
-	public static void main(String args[]) throws HarvardComputerArchException, IOException, AssemblySyntaxError {
-		AppDriver app = new AppDriver();
-		app.init();
-		app.run("m");
-	}
 }

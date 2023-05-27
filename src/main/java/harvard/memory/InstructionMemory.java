@@ -1,5 +1,6 @@
 package harvard.memory;
 
+import app.App;
 import printer.*;
 import harvard.constants.Constants;
 import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
@@ -25,22 +26,27 @@ public class InstructionMemory {
 		if (currentSize >= instructionMemory.length)
 			throw new IncorrectMemoryAddressException("Memory is Full");
 		System.out.println("Instruction Memory| Accessing Address " + currentSize + " to write " + instruction);
+		App.output("Instruction Memory| Accessing Address " + currentSize + " to write " + instruction);
 		instructionMemory[currentSize++] = instruction;
 
 	}
 
 	public void reset() {
-		this.instructionMemory = new Short[Constants.INSTRUCTION_MEMORY_SIZE];
-		this.currentSize = 0;
+		instance = new InstructionMemory();
 	}
 
 	public Short getInstruction(int pc) throws IncorrectMemoryAddressException {
 		if (pc < 0 || pc >= instructionMemory.length)
 			throw new IncorrectMemoryAddressException();
-		if (instructionMemory[pc] != null)
+		if (instructionMemory[pc] != null){
 			System.out.println("Instruction Memory| Accessing Address " + pc + " to read instruction :: in decimal : "
 					+ instructionMemory[pc] + ", in binary : " + Printer.extendBinaryNumber(
-							Integer.toBinaryString(instructionMemory[pc]), Constants.INSTRUCTION_SIZE));
+					Integer.toBinaryString(instructionMemory[pc]), Constants.INSTRUCTION_SIZE));
+		App.output("Instruction Memory| Accessing Address " + pc + " to read instruction :: in decimal : "
+				+ instructionMemory[pc] + ", in binary : " + Printer.extendBinaryNumber(
+				Integer.toBinaryString(instructionMemory[pc]), Constants.INSTRUCTION_SIZE));
+	}
+
 		return instructionMemory[pc];
 	}
 
@@ -56,8 +62,8 @@ public class InstructionMemory {
 
 			print += "Memory Location " + idx + ": "
 					+ (instructionMemory[idx] == null ? null
-							: Printer.extendBinaryNumber(Integer.toBinaryString(instructionMemory[idx]),
-									Constants.INSTRUCTION_SIZE))
+					: Printer.extendBinaryNumber(Integer.toBinaryString(instructionMemory[idx]),
+					Constants.INSTRUCTION_SIZE))
 					+ "\n";
 		}
 		print += "-- Data Memory End --\n";

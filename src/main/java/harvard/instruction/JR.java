@@ -1,5 +1,6 @@
 package harvard.instruction;
 
+import app.App;
 import harvard.constants.Constants;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
 import harvard.memory.RegisterFile;
@@ -17,6 +18,7 @@ public class JR extends RInstruction {
 		String op2 = Printer.extendBinaryNumber(Integer.toBinaryString(getOp2()), Constants.REGISTER_SIZE);
 		int newAddress = Integer.parseInt(op1 + op2, 2);
 		System.out.println("Jump to instruction at address : " + newAddress);
+		App.output("Jump to instruction at address : " + newAddress);
 		RegisterFile.getInstance().setPC((short) newAddress);
 	}
 

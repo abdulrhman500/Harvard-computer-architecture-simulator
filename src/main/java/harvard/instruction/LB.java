@@ -7,7 +7,7 @@ import harvard.memory.RegisterFile;
 
 public class LB extends IInstruction {
 
-	public LB(byte register1, byte immediate, byte destReg) {
+	public LB(Byte register1, Byte immediate, Byte destReg) {
 		super(register1, immediate, destReg);
 	}
 

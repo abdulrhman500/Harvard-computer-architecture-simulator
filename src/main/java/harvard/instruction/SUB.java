@@ -7,7 +7,7 @@ import static harvard.constants.Constants.EIGHT_ONES_MASK;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
 
 public class SUB extends RInstruction {
-	public SUB(byte op1, byte op2, byte destReg) {
+	public SUB(Byte op1, Byte op2, Byte destReg) {
 		super(op1, op2, destReg);
 	}
 

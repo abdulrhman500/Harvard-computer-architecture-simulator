@@ -6,13 +6,15 @@ import harvard.memory.RegisterFile;
 
 public class BEQZ extends IInstruction {
 
-	public BEQZ(byte op1, byte immediate, byte destReg) {
+	public BEQZ(Byte op1, Byte immediate, Byte destReg) {
 		super(op1, immediate, destReg);
 	}
 
 	@Override
-	public void doOperation() {
+	public void doOperation() throws HarvardComputerArchException {
 		if (getOp1() == 0) {
+			System.out.println("Branch to Instruction at address : "
+					+ (RegisterFile.getInstance().getPC() + Constants.OFFSET + immediate));
 			RegisterFile.getInstance()
 					.setPC((short) (RegisterFile.getInstance().getPC() + Constants.OFFSET + immediate));
 		}

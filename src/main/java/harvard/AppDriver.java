@@ -4,13 +4,15 @@ import harvard.constants.Constants;
 import harvard.exception.AssemblySyntaxError;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
 import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
+
 import harvard.memory.DataMemory;
 import harvard.memory.InstructionMemory;
 import harvard.memory.RegisterFile;
 import harvard.operation.ALU;
 import harvard.parser.Parser;
-import harvard.storage.ProgramCounter;
+import printer.Printer;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class AppDriver {
@@ -20,10 +22,13 @@ public class AppDriver {
 
 	private void init() {
 		clock = 1;
-//		SREG.getInstance().setData((byte) 0);
+		RegisterFile.getInstance();
+		InstructionMemory.getInstance();
+		DataMemory.getInstance();
 	}
 
-	public short fetch() throws IncorrectMemoryAddressException {
+
+	public Short fetch() throws HarvardComputerArchException {
 		short pc = RegisterFile.getInstance().getPC();
 		Short curInstruction = InstructionMemory.getInstance().getInstruction(pc);
 		RegisterFile.getInstance().setPC((short) (pc + 1));
@@ -31,7 +36,6 @@ public class AppDriver {
 	}
 
 	public void decode(Short instruction) {
-
 		byte opCode = getOpCode(instruction);
 		byte register1 = getR1(instruction);
 		byte register2 = getR2(instruction);
@@ -44,7 +48,6 @@ public class AppDriver {
 		ALU.getInstance().setOperand1(operand1);
 		ALU.getInstance().setOperand2(operand2);
 		ALU.getInstance().setDestReg(register1);
-
 	}
 
 	public void runNext() throws HarvardComputerArchException {
@@ -59,39 +62,37 @@ public class AppDriver {
 		DECODE = FETCH;
 		FETCH = fetch();
 
-		if (FETCH == null && DECODE == null && EXECUTE == null) {
-			System.out.println("FINISHED EXECUTION");
-			// TODO: print all and reset
-			System.out.println(RegisterFile.getInstance());
-			System.out.println(InstructionMemory.getInstance().toString());
-			System.out.println(DataMemory.getInstance().toString());
+		if (isExecFinished()) {
 			return;
 		}
 
-		System.out.println("Start of Clock Cycle " + (clock));
-		System.out.println("Program Counter: " + (ProgramCounter.getInstance().getData() - 1));
+		System.out.println("Start of Clock Cycle: " + clock);
+		System.out.println("Program Counter: "
+				+ Math.min(RegisterFile.getInstance().getPC(), InstructionMemory.getInstance().getCurrentSize()));
 
 		if (FETCH != null) {
-			System.out.println("current Fetched Instruction: " + FETCH);
+			System.out.println("current Fetched Instruction: " + Printer.printInstruction(FETCH));
 		} else {
 			System.out.println("No Fetch Instruction");
 		}
 
-		if (DECODE != null) {
-			System.out.println("current Decoded Instruction: " + DECODE);
-			decode(DECODE);
-		} else {
-			System.out.println("No Decode Instruction");
-		}
-
 		if (EXECUTE != null) {
-			System.out.println("current Executed Instruction: " + EXECUTE);
+			System.out.println("current Executed Instruction: " + Printer.printInstruction(EXECUTE));
 			ALU.getInstance().execute();
 			isBranch |= ALU.getInstance().checkForBranch();
 		} else {
 			System.out.println("No Execute Instruction");
 		}
 
+		if (DECODE != null) {
+			System.out.println("current Decoded Instruction: " + Printer.printInstruction(DECODE));
+			decode(DECODE);
+		} else {
+			System.out.println("No Decode Instruction");
+		}
+
+		System.out.println("End of Clock Cycle: " + clock);
+		System.out.println();
 		clock++;
 
 	}
@@ -124,25 +125,33 @@ public class AppDriver {
 		return operand;
 	}
 
-	public void run(String path) throws AssemblySyntaxError, IncorrectMemoryAddressException {
-		this.init();
-		// parser
-		// load to memory
-		// for (int inst : program )
-		// fetch(this);
-		// decode()
-		// execute()
-		// print(CLOCK)
-		// increment
 
+	private boolean isExecFinished() {
+		return FETCH == null && DECODE == null && EXECUTE == null;
+	}
+
+	public void run(String path) throws AssemblySyntaxError, HarvardComputerArchException {
 		Parser parser = new Parser(path);
-		parser.parse(); // this mean that instructions are read from file and loaded to instruction memory as binary
+		parser.parse(); // this mean that instructions are read from file and loaded to instruction
+						// memory as binary
 
 		// next is to apply dataPath
+		do {
+			runNext();
+		} while (!isExecFinished());
+
+		System.out.println("FINISHED EXECUTION");
+		System.out.println(RegisterFile.getInstance().toString());
+		System.out.println(DataMemory.getInstance().toString());
+		System.out.println(InstructionMemory.getInstance().toString());
 
 	}
 
-	public static void main(String args[]) {
-//		AppDriver app = new AppDriver();
+	// TODO : handle BEQZ instruction
+
+	public static void main(String args[]) throws HarvardComputerArchException, IOException, AssemblySyntaxError {
+		AppDriver app = new AppDriver();
+		app.init();
+		app.run("m");
 	}
 }

@@ -1,5 +1,6 @@
 package harvard.memory;
 
+import printer.*;
 import harvard.constants.Constants;
 import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 
@@ -21,7 +22,8 @@ public class InstructionMemory {
 	}
 
 	public void addInstruction(short instruction) throws IncorrectMemoryAddressException {
-		if(currentSize>=instructionMemory.length) throw new IncorrectMemoryAddressException("Memory is Full");
+		if(currentSize>=instructionMemory.length) 
+      throw new IncorrectMemoryAddressException("Memory is Full");
 		System.out.println("Instruction Memory| Accessing Address "+currentSize+" to write "+instruction);
 		instructionMemory[currentSize++] = instruction;
 
@@ -29,12 +31,16 @@ public class InstructionMemory {
 
 	@Override
 	public String toString() {
-		String print = new String();
-		print += "-- Instruction Memory --\n";
-		for (int memLoc =0;memLoc<instructionMemory.length;memLoc++) {
-			print += "Memory Location "+memLoc+" data in decimal="+instructionMemory[memLoc]+" in binary="+Integer.toBinaryString(0xFFFF & instructionMemory[memLoc])+"\n";
+		String print = new String("-- Instruction memory --\n");
+		int idx = 0;
+		for (; idx != instructionMemory.length; idx++) {
+
+			print += "Memory Location "+idx+ ": " + (instructionMemory[idx] == null ? null
+					: Printer.extendBinaryNumber(Integer.toBinaryString(instructionMemory[idx]),
+							Constants.INSTRUCTION_SIZE))
+					+ "\n";
 		}
-		print+= "-- Instruction Memory End --";
+		print += '\n';
 		return print;
 	}
 
@@ -43,9 +49,11 @@ public class InstructionMemory {
 		this.currentSize = 0;
 	}
 
+
 	public short getInstruction(int pc) throws IncorrectMemoryAddressException {
 		if(pc<0 || pc>=instructionMemory.length) throw new IncorrectMemoryAddressException();
-		System.out.println("Instruction Memory| Accessing Address "+currentSize+" to read "+instructionMemory[pc]);
+		System.out.println("Instruction Memory| Accessing Address "+pc+" to read "+instructionMemory[pc]);
+
 		return instructionMemory[pc];
 	}
 

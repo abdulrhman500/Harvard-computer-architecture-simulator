@@ -1,29 +1,23 @@
 package harvard.instruction;
 
+import harvard.constants.Constants;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
 import harvard.memory.RegisterFile;
+import printer.Printer;
 
 public class JR extends RInstruction {
 
-	public JR(byte op1, byte op2, byte destReg) {
+	public JR(Byte op1, Byte op2, Byte destReg) {
 		super(op1, op2, destReg);
 	}
 
 	@Override
-	public void doOperation() {
-		String op1 = adjust(Integer.toBinaryString(getOp1()));
-		String op2 = adjust(Integer.toBinaryString(getOp2()));
-		short newAddress = Short.valueOf(op1 + op2, 2);
-		RegisterFile.getInstance().setPC(newAddress);
-	}
-
-	private String adjust(String s) {
-		if (s.length() > 8)
-			return s.substring(24);
-		while (s.length() < 8) {
-			s = '0' + s;
-		}
-		return s;
+	public void doOperation() throws HarvardComputerArchException {
+		String op1 = Printer.extendBinaryNumber(Integer.toBinaryString(getOp1()), Constants.REGISTER_SIZE);
+		String op2 = Printer.extendBinaryNumber(Integer.toBinaryString(getOp2()), Constants.REGISTER_SIZE);
+		int newAddress = Integer.parseInt(op1 + op2, 2);
+		System.out.println("Jump to instruction at address : " + newAddress);
+		RegisterFile.getInstance().setPC((short) newAddress);
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import harvard.memory.RegisterFile;
 
 public class LDI extends IInstruction {
 
-	public LDI(byte register1, byte immediate, byte destReg) {
+	public LDI(Byte register1, Byte immediate, Byte destReg) {
 		super(register1, immediate, destReg);
 	}
 

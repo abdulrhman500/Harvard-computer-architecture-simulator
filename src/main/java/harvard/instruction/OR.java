@@ -7,7 +7,7 @@ import static harvard.constants.Constants.EIGHT_ONES_MASK;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
 
 public class OR extends RInstruction {
-	public OR(byte op1, byte op2, byte destReg) {
+	public OR(Byte op1, Byte op2, Byte destReg) {
 		super(op1, op2, destReg);
 	}
 

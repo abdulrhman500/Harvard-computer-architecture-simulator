@@ -1,3 +1,0 @@
-ldi r1 -1
-ldi r2 -1
-add r1 r2

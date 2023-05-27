@@ -1,19 +1,34 @@
 package harvard.instruction;
 
-import harvard.storage.Register;
+import harvard.harvardComputerExceptions.HarvardComputerArchException;
 
-public abstract class RInstruction implements Instruction{
-    Register register1 = null, register2 = null;
-    Byte result = null;
-    RInstruction(Register register1 , Register register2){
-        this.register1=register1;
-        this.register2= register2;
-    }
-    abstract void doOperation();
+public abstract class RInstruction implements Instruction {
+	private byte op1, op2, destReg;
 
-    abstract Byte getResult();
+	RInstruction(byte op1, byte op2, byte destReg) {
+		this.op1 = op1;
+		this.op2 = op2;
+		this.destReg = destReg;
+	}
 
-    abstract void updateFlags(int result);
+	public abstract void doOperation() throws HarvardComputerArchException;
 
-    abstract void setRegisters(Register register1, Register register2);
+	public abstract void updateFlags(int result) throws HarvardComputerArchException;
+
+	public int getOp1() {
+		return op1;
+	}
+
+	public int getOp2() {
+		return op2;
+	}
+
+	public byte getDestReg() {
+		return destReg;
+	}
+
+	public void setDestReg(byte destReg) {
+		this.destReg = destReg;
+	}
+
 }

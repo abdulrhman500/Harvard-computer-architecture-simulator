@@ -1,49 +1,50 @@
 package harvard.memory;
 
-import harvard.instruction.RInstruction;
-
-import static harvard.constants.Constants.INSTRUCTION_MEMORY_SIZE;
+import harvard.constants.Constants;
 
 public class InstructionMemory {
 
-    private RInstruction[] RInstructionMemory;
-    private int currentIntruction;
-    private static InstructionMemory instance = null;
-    private InstructionMemory(){
-        RInstructionMemory = new RInstruction[INSTRUCTION_MEMORY_SIZE];
-        currentIntruction =0 ;
-    }
+	private Short[] instructionMemory;
+	private short currentSize;
+	private static InstructionMemory instance = null;
 
-    public static InstructionMemory getInstance() {
-        if (instance == null)
-            instance = new InstructionMemory();
-        return instance;
-    }
+	private InstructionMemory() {
+		instructionMemory = new Short[Constants.INSTRUCTION_MEMORY_SIZE];
+		currentSize = 0;
+	}
 
-    public RInstruction fetch() {
-        //TODO: waiting for the PC
-        return null;
-    }
+	public static InstructionMemory getInstance() {
+		if (instance == null)
+			instance = new InstructionMemory();
+		return instance;
+	}
 
-    public void addInstruction(RInstruction RInstruction) {
-        //TODO: waiting for the full implementation
-        RInstructionMemory[currentIntruction++] = RInstruction;
-        //RInstruction.setAddress(currentIntruction);
-    }
+	public void addInstruction(short instruction) {
+		// TODO: what if the memory is full ?
+		instructionMemory[currentSize++] = instruction;
+	}
 
-    @Override
-    public String toString(){
-        String print = new String();
-        for(RInstruction RInstruction : RInstructionMemory)
-        {
-            //TODO: waiting for the full implemntaion of intruction
-        }
-        return print;
-    }
-    public void reset() {
-        this.RInstructionMemory = new RInstruction[INSTRUCTION_MEMORY_SIZE];
-        this.currentIntruction = 0;
-    }
+	@Override
+	public String toString() {
+		String print = new String();
+		for (short inst : instructionMemory) {
+			// TODO: waiting for the full implemntaion of intruction
+		}
+		return print;
+	}
 
+	public void reset() {
+		this.instructionMemory = new Short[Constants.INSTRUCTION_MEMORY_SIZE];
+		this.currentSize = 0;
+	}
+
+	public short getInstruction(int pc) {
+		// TODO throw exception if invalid pc
+		return instructionMemory[pc];
+	}
+
+	public short getCurrentSize() {
+		return currentSize;
+	}
 
 }

@@ -1,32 +1,22 @@
 package harvard.instruction;
 
-import harvard.storage.Register;
+import harvard.harvardComputerExceptions.HarvardComputerArchException;
+import harvard.memory.RegisterFile;
 
 public class LDI extends IInstruction {
 
-    public LDI(Register register1, Byte immediate) {
-        super(register1, immediate);
-    }
+	public LDI(byte register1, byte immediate, byte destReg) {
+		super(register1, immediate, destReg);
+	}
 
-    @Override
-    public void doOperation() {
-        // Implementation specific to LDI instruction
-    }
+	@Override
+	public void doOperation() {
+		RegisterFile.getInstance().setRegister(getDestReg(), getImmediate());
+	}
 
-    @Override
-    public Byte getResult() {
-        // Implementation specific to LDI instruction
-        return result;
-    }
+	@Override
+	public void updateFlags(int result) throws HarvardComputerArchException {
+		RegisterFile.getInstance().getSREG().updateFlags(EInstuctions.LDI, result, (byte) getOp1(), null);
+	}
 
-    @Override
-    public void updateFlags(int result) {
-        // Implementation specific to LDI instruction
-    }
-
-    @Override
-    public void setRegisters(Register register1, Byte immediate) {
-        this.register1 = register1;
-        this.immediate = immediate;
-    }
 }

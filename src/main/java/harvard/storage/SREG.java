@@ -9,6 +9,7 @@ public class SREG extends Register {
 
 	public SREG() {
 		super();
+		setData((byte) 0);
 	}
 
 	public SREG(Byte data) {
@@ -43,6 +44,7 @@ public class SREG extends Register {
 
 	private void setBit(Byte bitNum, boolean setter) {
 		Byte data = getData();
+		System.out.println();
 		data = (byte) (data | (((byte) 1) << bitNum));
 		if (!setter) {
 			data = (byte) (data ^ (((byte) 1) << bitNum));

@@ -5,7 +5,7 @@ import harvard.memory.RegisterFile;
 
 public class SRC extends IInstruction {
 
-	public SRC(byte register1, byte immediate, byte destReg) {
+	public SRC(Byte register1, Byte immediate, Byte destReg) {
 		super(register1, immediate, destReg);
 	}
 

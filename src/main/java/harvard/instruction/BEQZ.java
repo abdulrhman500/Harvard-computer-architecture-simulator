@@ -6,7 +6,7 @@ import harvard.memory.RegisterFile;
 
 public class BEQZ extends IInstruction {
 
-	public BEQZ(byte op1, byte immediate, byte destReg) {
+	public BEQZ(Byte op1, Byte immediate, Byte destReg) {
 		super(op1, immediate, destReg);
 	}
 

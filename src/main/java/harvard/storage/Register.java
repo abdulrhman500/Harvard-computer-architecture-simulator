@@ -11,7 +11,7 @@ public class Register {
     }
     public Register(){}
 
-    public byte getData() {
+    public Byte getData() {
         return data;
     }
 
@@ -25,6 +25,8 @@ public class Register {
         data = (byte) (data + R2.getData());
     }
     public String toBinary() {
+        if (data == null)
+            return null;
         return BaseConversion.toBinary(data);
     }
 

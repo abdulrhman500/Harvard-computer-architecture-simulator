@@ -36,10 +36,11 @@ public class DataMemory {
     @Override
     public String toString(){
         //TODO: ask about the print format
-        String print = new String();
+        System.out.println();
+        String print = new String("-- Data memory --\n");
         for(Byte data: memory)
         {
-            print+= data;
+            print+= (data==null?"null":data)+"\n";
         }
         return print;
     }

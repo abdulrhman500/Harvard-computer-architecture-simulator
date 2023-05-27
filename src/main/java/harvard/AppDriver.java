@@ -1,13 +1,17 @@
 package harvard;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import harvard.constants.Constants;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
 import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
+import harvard.harvardComputerExceptions.InvalidInstructionException;
+import harvard.memory.DataMemory;
 import harvard.memory.InstructionMemory;
 import harvard.memory.RegisterFile;
 import harvard.operation.ALU;
+import harvard.parser.Parser;
 import harvard.storage.ProgramCounter;
 
 public class AppDriver {
@@ -17,10 +21,12 @@ public class AppDriver {
 
 	private void init() {
 		clock = 1;
-//		SREG.getInstance().setData((byte) 0);
+		RegisterFile.getInstance();
+		InstructionMemory.getInstance();
+		DataMemory.getInstance();
 	}
 
-	public short fetch() throws IncorrectMemoryAddressException {
+	public Short fetch() throws IncorrectMemoryAddressException {
 		short pc = RegisterFile.getInstance().getPC();
 		Short curInstruction = InstructionMemory.getInstance().getInstruction(pc);
 		RegisterFile.getInstance().setPC((short) (pc + 1));
@@ -28,14 +34,14 @@ public class AppDriver {
 	}
 
 	public void decode(Short instruction) {
+		Byte opCode = getOpCode(instruction);
+		Byte register1 = getR1(instruction);
+		Byte register2 = getR2(instruction);
 
-		byte opCode = getOpCode(instruction);
-		byte register1 = getR1(instruction);
-		byte register2 = getR2(instruction);
-
-		byte operand1 = RegisterFile.getInstance().getRegister(register1).getData();
-		byte operand2 = isRType(opCode) ? RegisterFile.getInstance().getRegister(register2).getData()
+		Byte operand1 = RegisterFile.getInstance().getRegister(register1).getData();
+		Byte operand2 = isRType(opCode) ? RegisterFile.getInstance().getRegister(register2).getData()
 				: extend(register2);
+
 
 		ALU.getInstance().setOpCode(opCode);
 		ALU.getInstance().setOperand1(operand1);
@@ -60,10 +66,12 @@ public class AppDriver {
 			System.out.println("FINISHED EXECUTION");
 			// TODO: print all and reset
 			System.out.println(RegisterFile.getInstance().toString());
+			System.out.println(DataMemory.getInstance().toString());
+			System.out.println(InstructionMemory.getInstance().toString());
 			return;
 		}
 
-		System.out.println("Start of Clock Cycle " + (clock));
+		System.out.println("Start of Clock Cycle: " + clock);
 		System.out.println("Program Counter: " + (ProgramCounter.getInstance().getData() - 1));
 
 		if (FETCH != null) {
@@ -72,12 +80,6 @@ public class AppDriver {
 			System.out.println("No Fetch Instruction");
 		}
 
-		if (DECODE != null) {
-			System.out.println("current Decoded Instruction: " + DECODE);
-			decode(DECODE);
-		} else {
-			System.out.println("No Decode Instruction");
-		}
 
 		if (EXECUTE != null) {
 			System.out.println("current Executed Instruction: " + EXECUTE);
@@ -85,6 +87,13 @@ public class AppDriver {
 			isBranch |= ALU.getInstance().checkForBranch();
 		} else {
 			System.out.println("No Execute Instruction");
+		}
+
+		if (DECODE != null) {
+			System.out.println("current Decoded Instruction: " + DECODE);
+			decode(DECODE);
+		} else {
+			System.out.println("No Decode Instruction");
 		}
 
 		clock++;
@@ -119,20 +128,23 @@ public class AppDriver {
 		return operand;
 	}
 
-	public void run(String path) {
+	public void run(String path) throws HarvardComputerArchException, IOException {
 		this.init();
-		// parser
-		// load to memory
-		// for (int inst : program )
-		// fetch(this);
-		// decode()
-		// execute()
-		// print(CLOCK)
-		// increment
+		Parser parser = new Parser(path);
+		parser.parseFile();
+		int nextIntruction = InstructionMemory.getInstance().nextIntruction();
+		while (nextIntruction != -1) {
+			runNext();
+			nextIntruction = InstructionMemory.getInstance().nextIntruction();
+		}
+		runNext();
+		runNext();
+		runNext();
 
 	}
 
-	public static void main(String args[]) {
-//		AppDriver app = new AppDriver();
+	public static void main(String args[]) throws HarvardComputerArchException, IOException {
+		AppDriver app = new AppDriver();
+		app.run("m");
 	}
 }

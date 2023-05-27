@@ -3,9 +3,9 @@ package harvard.instruction;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
 
 public abstract class RInstruction implements Instruction {
-	private byte op1, op2, destReg;
+	private Byte op1, op2, destReg;
 
-	RInstruction(byte op1, byte op2, byte destReg) {
+	RInstruction(Byte op1, Byte op2, Byte destReg) {
 		this.op1 = op1;
 		this.op2 = op2;
 		this.destReg = destReg;
@@ -15,7 +15,7 @@ public abstract class RInstruction implements Instruction {
 
 	public abstract void updateFlags(int result) throws HarvardComputerArchException;
 
-	public int getOp1() {
+	public Byte getOp1() {
 		return op1;
 	}
 

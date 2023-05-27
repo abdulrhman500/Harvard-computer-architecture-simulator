@@ -5,7 +5,7 @@ import harvard.memory.RegisterFile;
 
 public class JR extends RInstruction {
 
-	public JR(byte op1, byte op2, byte destReg) {
+	public JR(Byte op1, Byte op2, Byte destReg) {
 		super(op1, op2, destReg);
 	}
 

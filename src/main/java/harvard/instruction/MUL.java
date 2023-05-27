@@ -8,7 +8,7 @@ import static harvard.constants.Constants.EIGHT_ONES_MASK;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
 
 public class MUL extends RInstruction {
-	public MUL(byte op1, byte op2, byte destReg) {
+	public MUL(Byte op1, Byte op2, Byte destReg) {
 		super(op1, op2, destReg);
 	}
 

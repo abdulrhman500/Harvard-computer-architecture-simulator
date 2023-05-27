@@ -8,7 +8,7 @@ import harvard.harvardComputerExceptions.HarvardComputerArchException;
 
 public class ADD extends RInstruction {
 
-	public ADD(byte op1, byte op2, byte destReg) {
+	public ADD(Byte op1, Byte op2, Byte destReg) {
 		super(op1, op2, destReg);
 	}
 

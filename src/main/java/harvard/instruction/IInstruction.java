@@ -4,9 +4,9 @@ import harvard.harvardComputerExceptions.HarvardComputerArchException;
 import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 
 public abstract class IInstruction implements Instruction {
-	byte op1, immediate, destReg;
+	Byte op1, immediate, destReg;
 
-	public IInstruction(byte op1, byte immediate, byte destReg) {
+	public IInstruction(Byte op1, Byte immediate, Byte destReg) {
 		this.op1 = op1;
 		this.immediate = immediate;
 		this.destReg = destReg;
@@ -16,7 +16,7 @@ public abstract class IInstruction implements Instruction {
 
 	public abstract void updateFlags(int result) throws HarvardComputerArchException;
 
-	public byte getDestReg() {
+	public Byte getDestReg() {
 		return destReg;
 	}
 
@@ -24,7 +24,7 @@ public abstract class IInstruction implements Instruction {
 		return op1;
 	}
 
-	public byte getImmediate() {
+	public Byte getImmediate() {
 		return immediate;
 	}
 

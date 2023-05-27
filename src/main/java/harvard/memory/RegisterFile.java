@@ -5,10 +5,12 @@ import harvard.storage.ProgramCounter;
 import harvard.storage.Register;
 import harvard.storage.SREG;
 
+import java.util.Arrays;
+
 public class RegisterFile {
 	private Register[] registers;
 
-	private static final RegisterFile registerFile = new RegisterFile();
+	private static RegisterFile registerFile;
 
 	private RegisterFile() {
 		registers = new Register[Constants.REGISTER_FILE_SIZE];
@@ -23,7 +25,9 @@ public class RegisterFile {
 	}
 
 	public void setRegister(byte index, byte data) {
+		System.out.println(" inside set regFile "+index+" "+data);
 		registers[index].setData(data);
+//		System.out.println(Arrays.toString(registers));
 	}
 
 	public short getPC() {
@@ -39,6 +43,8 @@ public class RegisterFile {
 	}
 
 	public static RegisterFile getInstance() {
+		if(registerFile == null)
+			registerFile = new RegisterFile();
 		return registerFile;
 	}
 
@@ -48,7 +54,7 @@ public class RegisterFile {
 		Register[] generalPurposeRegisters = getInstance().registers;
 		String print = "-- Register File --\n";
 		for(int i =0;i<generalPurposeRegisters.length;i++){
-			print+= "Register No "+ i +" "+ generalPurposeRegisters[i].toString();
+			print+= "Register No "+ i +" "+ generalPurposeRegisters[i].toString()+'\n';
 		}
 		print+= ProgramCounter.getInstance().toString()+"\n";
 		print+= SREG.getInstance().toString()+"\n";

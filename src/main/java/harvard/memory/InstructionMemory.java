@@ -1,5 +1,6 @@
 package harvard.memory;
 
+import printer.*;
 import harvard.constants.Constants;
 import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 
@@ -7,13 +8,11 @@ public class InstructionMemory {
 
 	private Short[] instructionMemory;
 	private short currentSize;
-	private short pointer;
 	private static InstructionMemory instance = null;
 
 	private InstructionMemory() {
 		instructionMemory = new Short[Constants.INSTRUCTION_MEMORY_SIZE];
 		currentSize = 0;
-		pointer = 0;
 	}
 
 	public static InstructionMemory getInstance() {
@@ -22,14 +21,9 @@ public class InstructionMemory {
 		return instance;
 	}
 
-	public int nextIntruction(){
-		if (pointer != currentSize)
-			return pointer++;
-			return -1;
-	}
-
 	public void addInstruction(short instruction) throws IncorrectMemoryAddressException {
-		if(currentSize<0 || currentSize>=getInstance().instructionMemory.length) throw new IncorrectMemoryAddressException();
+		if (currentSize < 0 || currentSize >= getInstance().instructionMemory.length)
+			throw new IncorrectMemoryAddressException();
 		instructionMemory[currentSize++] = instruction;
 	}
 
@@ -37,18 +31,15 @@ public class InstructionMemory {
 	public String toString() {
 		String print = new String("-- Instruction memory --\n");
 		int idx = 0;
-		for (;idx!=currentSize;idx++) {
+		for (; idx != instructionMemory.length; idx++) {
 
-			print += comBits(Integer.toBinaryString(instructionMemory[idx])).substring(16)+"\n";
+			print += (instructionMemory[idx] == null ? null
+					: Printer.extendBinaryNumber(Integer.toBinaryString(instructionMemory[idx]),
+							Constants.INSTRUCTION_SIZE))
+					+ "\n";
 		}
-		print +='\n';
+		print += '\n';
 		return print;
-	}
-	String comBits(String m){
-		while (m.length()<32){
-			m = "0"+m;
-		}
-		return m;
 	}
 
 	public void reset() {
@@ -57,7 +48,8 @@ public class InstructionMemory {
 	}
 
 	public Short getInstruction(int pc) throws IncorrectMemoryAddressException {
-		if(pc<0 || pc>=instructionMemory.length) throw new IncorrectMemoryAddressException();
+		if (pc < 0 || pc >= instructionMemory.length)
+			throw new IncorrectMemoryAddressException();
 		return instructionMemory[pc];
 	}
 

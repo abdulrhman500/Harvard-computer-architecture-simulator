@@ -39,32 +39,32 @@ public class ALU {
 
 	private Instruction getInstruction() {
 		switch (opCode) {
-			case Constants.ADD_OPCODE:
-				return new ADD(operand1, operand2, destReg);
-			case Constants.SUB_OPCODE:
-				return new SUB(operand1, operand2, destReg);
-			case Constants.MUL_OPCODE:
-				return new MUL(operand1, operand2, destReg);
-			case Constants.LDI_OPCODE:
-				return new LDI(operand1, operand2, destReg);
-			case Constants.BEQZ_OPCODE:
-				return new BEQZ(operand1, operand2, destReg);
-			case Constants.AND_OPCODE:
-				return new AND(operand1, operand2, destReg);
-			case Constants.OR_OPCODE:
-				return new OR(operand1, operand2, destReg);
-			case Constants.JR_OPCODE:
-				return new JR(operand1, operand2, destReg);
-			case Constants.SLC_OPCODE:
-				return new SLC(operand1, operand2, destReg);
-			case Constants.SRC_OPCODE:
-				return new SRC(operand1, operand2, destReg);
-			case Constants.LB_OPCODE:
-				return new LB(operand1, operand2, destReg);
-			case Constants.SB_OPCODE:
-				return new SB(operand1, operand2, destReg);
-			default:
-				throw new IllegalStateException("Unexpected value: " + opCode);
+		case Constants.ADD_OPCODE:
+			return new ADD(operand1, operand2, destReg);
+		case Constants.SUB_OPCODE:
+			return new SUB(operand1, operand2, destReg);
+		case Constants.MUL_OPCODE:
+			return new MUL(operand1, operand2, destReg);
+		case Constants.LDI_OPCODE:
+			return new LDI(operand1, operand2, destReg);
+		case Constants.BEQZ_OPCODE:
+			return new BEQZ(operand1, operand2, destReg);
+		case Constants.AND_OPCODE:
+			return new AND(operand1, operand2, destReg);
+		case Constants.OR_OPCODE:
+			return new OR(operand1, operand2, destReg);
+		case Constants.JR_OPCODE:
+			return new JR(operand1, operand2, destReg);
+		case Constants.SLC_OPCODE:
+			return new SLC(operand1, operand2, destReg);
+		case Constants.SRC_OPCODE:
+			return new SRC(operand1, operand2, destReg);
+		case Constants.LB_OPCODE:
+			return new LB(operand1, operand2, destReg);
+		case Constants.SB_OPCODE:
+			return new SB(operand1, operand2, destReg);
+		default:
+			throw new IllegalStateException("Unexpected value: " + opCode);
 		}
 	}
 

@@ -11,8 +11,10 @@ public class BEQZ extends IInstruction {
 	}
 
 	@Override
-	public void doOperation() {
+	public void doOperation() throws HarvardComputerArchException {
 		if (getOp1() == 0) {
+			System.out.println("Branch to Instruction at address : "
+					+ (RegisterFile.getInstance().getPC() + Constants.OFFSET + immediate));
 			RegisterFile.getInstance()
 					.setPC((short) (RegisterFile.getInstance().getPC() + Constants.OFFSET + immediate));
 		}

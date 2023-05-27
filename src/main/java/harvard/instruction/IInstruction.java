@@ -12,7 +12,7 @@ public abstract class IInstruction implements Instruction {
 		this.destReg = destReg;
 	}
 
-	public abstract void doOperation() throws IncorrectMemoryAddressException;
+	public abstract void doOperation() throws IncorrectMemoryAddressException, HarvardComputerArchException;
 
 	public abstract void updateFlags(int result) throws HarvardComputerArchException;
 

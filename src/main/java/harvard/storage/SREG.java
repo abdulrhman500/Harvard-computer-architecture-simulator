@@ -9,6 +9,7 @@ public class SREG extends Register {
 
 	public SREG() {
 		super();
+		setData((byte) 0);
 	}
 
 	public SREG(Byte data) {
@@ -52,46 +53,45 @@ public class SREG extends Register {
 
 	public void updateFlags(EInstuctions Einstruction, int result, Byte register1, Byte register2)
 			throws HarvardComputerArchException {
-
 		switch (Einstruction) {
 		case ADD:
-			boolean carry = ((result >> 8) & 1) == 1;
-			SREG.getInstance().setCBit(carry);
-			// TODO: set V & N & S & Z
+			setCBit((result & (1 << 8)) > 0);
+			// TODO: check about the zero
+			setVBit((register1 >= 0 && register2 >= 0 && (byte) result < 0)
+					|| (register1 < 0 && register2 < 0 && (byte) result >= 0));
+			setNBit((byte) result < 0);
+			setSBit(((getData() >> 2 & 1) > 0) ^ ((getData() >> 3 & 1) > 0));
+			setZBit(result == 0);
 			break;
-
 		case SUB:
-			// TODO: set V & N & S & Z
+			setVBit((register1 >= 0 && register2 >= 0 && (byte) result < 0)
+					|| (register1 < 0 && register2 < 0 && (byte) result >= 0));
+			setNBit((byte) result < 0);
+			setSBit(((getData() >> 2 & 1) > 0) ^ ((getData() >> 3 & 1) > 0));
+			setZBit(result == 0);
 			break;
-
 		case MUL:
 			// TODO: N & Z
+			setNBit((byte) result < 0);
+			setZBit(result == 0);
 			break;
-//            case AND,OR,SLC,SRC:
-		// TODO: N & Z
-//                break;
+		case AND, OR, SLC, SRC:
+			// TODO: N & Z
+			setNBit((byte) result < 0);
+			setZBit(result == 0);
+			break;
 
 		default:
 			throw new HarvardComputerArchException("wrong instr");
 
 		}
-		// TODO: implement
 
-		boolean overflow = false;
-		boolean negative = result < 0;
-		boolean zero = result == 0;
-		int resultSign = (result >> 7) & 1;
-		int register1Sign = (register1 >> 7) & 1;
-		int register2Sign = (register2 >> 7) & 1;
-		if ((register1Sign == register2Sign) && resultSign != register1Sign)
-			overflow = true;
-		boolean sign = negative ^ overflow;
+		System.out.println(SREG.getInstance().toString());
+	}
 
-		SREG.getInstance().setNBit(negative);
-
-		SREG.getInstance().setVBit(overflow);
-		SREG.getInstance().setZBit(zero);
-		SREG.getInstance().setSBit(sign);
+	@Override
+	public String toString() {
+		return "SREG: " + super.toString();
 	}
 
 }

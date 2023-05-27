@@ -8,7 +8,7 @@ import harvard.harvardComputerExceptions.HarvardComputerArchException;
 
 public class AND extends RInstruction {
 
-	public AND(byte op1, byte op2, byte destReg) {
+	public AND(Byte op1, Byte op2, Byte destReg) {
 		super(op1, op2, destReg);
 	}
 

@@ -20,7 +20,7 @@ public class ALU {
 		this.opCode = opCode;
 	}
 
-	public void setOperand1(byte operand1) {
+	public void setOperand1(Byte operand1) {
 		this.operand1 = operand1;
 	}
 

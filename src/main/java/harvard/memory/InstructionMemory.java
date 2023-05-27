@@ -1,6 +1,8 @@
 package harvard.memory;
 
+import printer.*;
 import harvard.constants.Constants;
+import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 
 public class InstructionMemory {
 
@@ -19,17 +21,24 @@ public class InstructionMemory {
 		return instance;
 	}
 
-	public void addInstruction(short instruction) {
-		// TODO: what if the memory is full ?
+	public void addInstruction(short instruction) throws IncorrectMemoryAddressException {
+		if (currentSize < 0 || currentSize >= getInstance().instructionMemory.length)
+			throw new IncorrectMemoryAddressException();
 		instructionMemory[currentSize++] = instruction;
 	}
 
 	@Override
 	public String toString() {
-		String print = new String();
-		for (short inst : instructionMemory) {
-			// TODO: waiting for the full implemntaion of intruction
+		String print = new String("-- Instruction memory --\n");
+		int idx = 0;
+		for (; idx != instructionMemory.length; idx++) {
+
+			print += (instructionMemory[idx] == null ? null
+					: Printer.extendBinaryNumber(Integer.toBinaryString(instructionMemory[idx]),
+							Constants.INSTRUCTION_SIZE))
+					+ "\n";
 		}
+		print += '\n';
 		return print;
 	}
 
@@ -38,8 +47,9 @@ public class InstructionMemory {
 		this.currentSize = 0;
 	}
 
-	public short getInstruction(int pc) {
-		// TODO throw exception if invalid pc
+	public Short getInstruction(int pc) throws IncorrectMemoryAddressException {
+		if (pc < 0 || pc >= instructionMemory.length)
+			throw new IncorrectMemoryAddressException();
 		return instructionMemory[pc];
 	}
 

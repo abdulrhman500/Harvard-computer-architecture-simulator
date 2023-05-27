@@ -1,6 +1,7 @@
 package harvard.memory;
 
 import harvard.constants.Constants;
+import harvard.harvardComputerExceptions.HarvardComputerArchException;
 import harvard.storage.ProgramCounter;
 import harvard.storage.Register;
 import harvard.storage.SREG;
@@ -8,7 +9,7 @@ import harvard.storage.SREG;
 public class RegisterFile {
 	private Register[] registers;
 
-	private static final RegisterFile registerFile = new RegisterFile();
+	private static RegisterFile registerFile;
 
 	private RegisterFile() {
 		registers = new Register[Constants.REGISTER_FILE_SIZE];
@@ -23,14 +24,18 @@ public class RegisterFile {
 	}
 
 	public void setRegister(byte index, byte data) {
+		System.out.println("Set register R" + index + " : " + data);
 		registers[index].setData(data);
 	}
 
 	public short getPC() {
-		return ProgramCounter.getInstance().getData();
+		return (short) (ProgramCounter.getInstance().getData());
 	}
 
-	public void setPC(short data) {
+	public void setPC(short data) throws HarvardComputerArchException {
+		if (data < 0) {
+			throw new HarvardComputerArchException(Constants.SET_PC_NEG_VAL);
+		}
 		ProgramCounter.getInstance().setData(data);
 	}
 
@@ -39,6 +44,21 @@ public class RegisterFile {
 	}
 
 	public static RegisterFile getInstance() {
+		if (registerFile == null)
+			registerFile = new RegisterFile();
 		return registerFile;
+	}
+
+	@Override
+	public String toString() {
+		Register[] generalPurposeRegisters = getInstance().registers;
+		String print = "-- Register File --\n";
+		for (int i = 0; i < generalPurposeRegisters.length; i++) {
+			print += "Register R" + i + " " + generalPurposeRegisters[i].toString() + '\n';
+		}
+		print += ProgramCounter.getInstance().toString() + "\n";
+		print += SREG.getInstance().toString() + "\n";
+		return print;
+
 	}
 }

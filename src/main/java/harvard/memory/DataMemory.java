@@ -2,6 +2,7 @@ package harvard.memory;
 
 import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 import harvard.storage.Register;
+import printer.Printer;
 
 import static harvard.constants.Constants.*;
 
@@ -22,14 +23,14 @@ public class DataMemory {
 	public Byte readAddress(int address) throws IncorrectMemoryAddressException {
 		if (address > DATA_MEMORY_SIZE - 1 || address < 0)
 			throw new IncorrectMemoryAddressException();
-		System.out.println("Data Memory| Accessing Address "+address+" to read "+memory[address]);
+		System.out.println("Data Memory| Accessing Address " + address + " to read " + memory[address]);
 		return memory[address];
 	}
 
 	public void writeAddress(int address, Byte data) throws IncorrectMemoryAddressException {
 		if (address > DATA_MEMORY_SIZE - 1 || address < 0)
 			throw new IncorrectMemoryAddressException();
-		System.out.println("Data Memory| Accessing Address "+address+" to write "+data);
+		System.out.println("Data Memory| Accessing Address " + address + " to write " + data);
 		memory[address] = data;
 	}
 
@@ -44,11 +45,14 @@ public class DataMemory {
 		// TODO: ask about the print format
 		System.out.println();
 		String print = new String("-- Data memory --\n");
-    // TODO: handle null values
-	  for (int memLoc =0;memLoc<memory.length;memLoc++) {
-        print += "Memory Location "+memLoc+" data in decimal="+memory[memLoc]+" in binary="+Integer.toBinaryString(0xFFFF & memory[memLoc])+"\n";
-    }
-    print+= "-- Data Memory End --";
+		for (int memLoc = 0; memLoc < memory.length; memLoc++) {
+			print += "Memory Location " + memLoc + ": "
+					+ (memory[memLoc] == null ? memory[memLoc]
+							: " data in decimal=" + memory[memLoc] + " in binary= "
+									+ Printer.extendBinaryNumber(Integer.toBinaryString(memory[memLoc]), REGISTER_SIZE))
+					+ "\n";
+		}
+		print += "-- Data Memory End --\n";
 		return print;
 	}
 

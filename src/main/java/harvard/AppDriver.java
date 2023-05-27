@@ -3,7 +3,6 @@ package harvard;
 import harvard.constants.Constants;
 import harvard.exception.AssemblySyntaxError;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
-import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 
 import harvard.memory.DataMemory;
 import harvard.memory.InstructionMemory;
@@ -26,7 +25,6 @@ public class AppDriver {
 		InstructionMemory.getInstance();
 		DataMemory.getInstance();
 	}
-
 
 	public Short fetch() throws HarvardComputerArchException {
 		short pc = RegisterFile.getInstance().getPC();
@@ -58,22 +56,27 @@ public class AppDriver {
 			EXECUTE = null;
 			ALU.getInstance().clear();
 		}
-		EXECUTE = DECODE;
-		DECODE = FETCH;
-		FETCH = fetch();
 
 		if (isExecFinished()) {
 			return;
 		}
 
 		System.out.println("Start of Clock Cycle: " + clock);
-		System.out.println("Program Counter: "
-				+ Math.min(RegisterFile.getInstance().getPC(), InstructionMemory.getInstance().getCurrentSize()));
+
+		EXECUTE = DECODE;
+		DECODE = FETCH;
+		FETCH = fetch();
 
 		if (FETCH != null) {
 			System.out.println("current Fetched Instruction: " + Printer.printInstruction(FETCH));
 		} else {
 			System.out.println("No Fetch Instruction");
+		}
+
+		if (DECODE != null) {
+			System.out.println("current Decoded Instruction: " + Printer.printInstruction(DECODE));
+		} else {
+			System.out.println("No Decode Instruction");
 		}
 
 		if (EXECUTE != null) {
@@ -85,10 +88,7 @@ public class AppDriver {
 		}
 
 		if (DECODE != null) {
-			System.out.println("current Decoded Instruction: " + Printer.printInstruction(DECODE));
 			decode(DECODE);
-		} else {
-			System.out.println("No Decode Instruction");
 		}
 
 		System.out.println("End of Clock Cycle: " + clock);
@@ -125,25 +125,25 @@ public class AppDriver {
 		return operand;
 	}
 
-
 	private boolean isExecFinished() {
-		return FETCH == null && DECODE == null && EXECUTE == null;
+		return FETCH == null && DECODE == null && EXECUTE == null
+				&& RegisterFile.getInstance().getPC() >= InstructionMemory.getInstance().getCurrentSize();
 	}
 
 	public void run(String path) throws AssemblySyntaxError, HarvardComputerArchException {
 		Parser parser = new Parser(path);
 		parser.parse(); // this mean that instructions are read from file and loaded to instruction
 						// memory as binary
-
+		System.out.println();
 		// next is to apply dataPath
 		do {
 			runNext();
 		} while (!isExecFinished());
 
-		System.out.println("FINISHED EXECUTION");
+		System.out.println("FINISHED EXECUTION\n");
 		System.out.println(RegisterFile.getInstance().toString());
-		System.out.println(DataMemory.getInstance().toString());
-		System.out.println(InstructionMemory.getInstance().toString());
+//		System.out.println(DataMemory.getInstance().toString());
+//		System.out.println(InstructionMemory.getInstance().toString());
 
 	}
 

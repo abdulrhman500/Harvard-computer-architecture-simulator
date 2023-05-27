@@ -37,6 +37,7 @@ public class RegisterFile {
 			throw new HarvardComputerArchException(Constants.SET_PC_NEG_VAL);
 		}
 		ProgramCounter.getInstance().setData(data);
+		System.out.print("Set PC : " + ProgramCounter.getInstance().getData() + "\n");
 	}
 
 	public SREG getSREG() {
@@ -52,12 +53,12 @@ public class RegisterFile {
 	@Override
 	public String toString() {
 		String print = "-- Register File --\n";
-    print += ProgramCounter.getInstance().toString() + "\n";
+		print += ProgramCounter.getInstance().toString() + "\n";
 		print += SREG.getInstance().toString() + "\n";
 		for (int i = 0; i < registers.length; i++) {
 			print += "Register R" + i + " " + registers[i].toString() + '\n';
 		}
-    print+="-- Register File End -- ";
+		print += "-- Register File End --\n";
 		return print;
 	}
 }

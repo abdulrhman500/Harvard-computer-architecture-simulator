@@ -22,11 +22,30 @@ public class InstructionMemory {
 	}
 
 	public void addInstruction(short instruction) throws IncorrectMemoryAddressException {
-		if(currentSize>=instructionMemory.length) 
-      throw new IncorrectMemoryAddressException("Memory is Full");
-		System.out.println("Instruction Memory| Accessing Address "+currentSize+" to write "+instruction);
+		if (currentSize >= instructionMemory.length)
+			throw new IncorrectMemoryAddressException("Memory is Full");
+		System.out.println("Instruction Memory| Accessing Address " + currentSize + " to write " + instruction);
 		instructionMemory[currentSize++] = instruction;
 
+	}
+
+	public void reset() {
+		this.instructionMemory = new Short[Constants.INSTRUCTION_MEMORY_SIZE];
+		this.currentSize = 0;
+	}
+
+	public Short getInstruction(int pc) throws IncorrectMemoryAddressException {
+		if (pc < 0 || pc >= instructionMemory.length)
+			throw new IncorrectMemoryAddressException();
+		if (instructionMemory[pc] != null)
+			System.out.println("Instruction Memory| Accessing Address " + pc + " to read instruction :: in decimal : "
+					+ instructionMemory[pc] + ", in binary : " + Printer.extendBinaryNumber(
+							Integer.toBinaryString(instructionMemory[pc]), Constants.INSTRUCTION_SIZE));
+		return instructionMemory[pc];
+	}
+
+	public short getCurrentSize() {
+		return currentSize;
 	}
 
 	@Override
@@ -35,30 +54,14 @@ public class InstructionMemory {
 		int idx = 0;
 		for (; idx != instructionMemory.length; idx++) {
 
-			print += "Memory Location "+idx+ ": " + (instructionMemory[idx] == null ? null
-					: Printer.extendBinaryNumber(Integer.toBinaryString(instructionMemory[idx]),
-							Constants.INSTRUCTION_SIZE))
+			print += "Memory Location " + idx + ": "
+					+ (instructionMemory[idx] == null ? null
+							: Printer.extendBinaryNumber(Integer.toBinaryString(instructionMemory[idx]),
+									Constants.INSTRUCTION_SIZE))
 					+ "\n";
 		}
-		print += '\n';
+		print += "-- Data Memory End --\n";
 		return print;
-	}
-
-	public void reset() {
-		this.instructionMemory = new Short[Constants.INSTRUCTION_MEMORY_SIZE];
-		this.currentSize = 0;
-	}
-
-
-	public short getInstruction(int pc) throws IncorrectMemoryAddressException {
-		if(pc<0 || pc>=instructionMemory.length) throw new IncorrectMemoryAddressException();
-		System.out.println("Instruction Memory| Accessing Address "+pc+" to read "+instructionMemory[pc]);
-
-		return instructionMemory[pc];
-	}
-
-	public short getCurrentSize() {
-		return currentSize;
 	}
 
 }

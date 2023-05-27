@@ -1,13 +1,15 @@
 package harvard;
 
-import java.util.Arrays;
-
 import harvard.constants.Constants;
+import harvard.exception.AssemblySyntaxError;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
 import harvard.memory.InstructionMemory;
 import harvard.memory.RegisterFile;
 import harvard.operation.ALU;
+import harvard.parser.Parser;
 import harvard.storage.ProgramCounter;
+
+import java.util.Arrays;
 
 public class AppDriver {
 	private int clock;
@@ -117,7 +119,7 @@ public class AppDriver {
 		return operand;
 	}
 
-	public void run(String path) {
+	public void run(String path) throws AssemblySyntaxError {
 		this.init();
 		// parser
 		// load to memory
@@ -127,6 +129,11 @@ public class AppDriver {
 		// execute()
 		// print(CLOCK)
 		// increment
+
+		Parser parser = new Parser(path);
+		parser.parse(); // this mean that instructions are read from file and loaded to instruction memory as binary
+
+		// next is to apply dataPath
 
 	}
 

@@ -1,9 +1,6 @@
 package harvard;
-
-import java.io.IOException;
-import java.util.Arrays;
-
 import harvard.constants.Constants;
+import harvard.exception.AssemblySyntaxError;
 import harvard.harvardComputerExceptions.HarvardComputerArchException;
 import harvard.harvardComputerExceptions.IncorrectMemoryAddressException;
 import harvard.harvardComputerExceptions.InvalidInstructionException;
@@ -13,6 +10,8 @@ import harvard.memory.RegisterFile;
 import harvard.operation.ALU;
 import harvard.parser.Parser;
 import harvard.storage.ProgramCounter;
+
+import java.util.Arrays;
 
 public class AppDriver {
 	private int clock;
@@ -128,7 +127,8 @@ public class AppDriver {
 		return operand;
 	}
 
-	public void run(String path) throws HarvardComputerArchException, IOException {
+
+	public void run(String path) throws AssemblySyntaxError {
 		this.init();
 		Parser parser = new Parser(path);
 		parser.parseFile();
@@ -140,6 +140,11 @@ public class AppDriver {
 		runNext();
 		runNext();
 		runNext();
+
+		Parser parser = new Parser(path);
+		parser.parse(); // this mean that instructions are read from file and loaded to instruction memory as binary
+
+		// next is to apply dataPath
 
 	}
 

@@ -53,7 +53,7 @@ a Java-based simulation of the Harvard computer architecture to execute assembly
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://github.com/abdulrhman500/Harvard-computer-architecture-simulator/blob/main/images/Screenshot%20(118).png)
 
 
 ## Notes

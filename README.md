@@ -41,7 +41,7 @@ a Java-based simulation of the Harvard computer architecture to execute assembly
 3- Build the project using Maven
 
 ```bash
-  mvn clear
+  mvn clean
 ```
 
 4- Run Javafx project using Maven
